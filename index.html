@@ -6,293 +6,432 @@
   <title>Tiếng Hàn Tổng Hợp Sơ Cấp 1</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter chuẩn tiếng Việt & Nanum Gothic / Dotum Fallbacks -->
+  <!-- Google Fonts: Inter (Tiếng Việt) & Noto Sans KR (Tiếng Hàn) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --kr-font: 'DotumChe', '돋움체', 'Dotum', '돋움', 'Nanum Gothic', sans-serif;
+      --kr-font: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
       --vi-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     body {
       font-family: var(--vi-font);
       background-color: #f8fafc;
-      background-image: 
-        linear-gradient(#e0e7ff 1px, transparent 1px), 
-        linear-gradient(to right, #e0e7ff 1px, transparent 1px);
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
       background-size: 24px 24px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    .vi-text {
-      font-family: var(--vi-font) !important;
+    .vi-text { font-family: var(--vi-font) !important; }
+    .kr-text { font-family: var(--kr-font) !important; letter-spacing: -0.01em; }
+
+    /* Phong cách Ocean Blue Pro */
+    .ocean-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .ocean-card-interactive:hover {
+      border-color: #93c5fd;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -4px rgba(37, 99, 235, 0.12);
     }
 
-    .kr-text {
-      font-family: var(--kr-font) !important;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-
-    /* Phong cách Xanh Nước Biển (Ocean Blue) */
-    .ocean-border {
-      border: 2px solid #3b82f6;
-    }
-    .ocean-border-light {
-      border: 2px solid #93c5fd;
-    }
-    .ocean-shadow {
-      box-shadow: 4px 4px 0px #bfdbfe;
-    }
-    .ocean-shadow-sm {
-      box-shadow: 2px 2px 0px #dbeafe;
-    }
     .ocean-btn {
-      border: 2px solid #2563eb;
-      box-shadow: 3px 3px 0px #93c5fd;
-      transition: all 0.15s ease-in-out;
+      border: 1.5px solid #2563eb;
+      box-shadow: 0 3px 0 0 #1d4ed8;
+      transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .ocean-btn:hover {
+      filter: brightness(1.03);
     }
     .ocean-btn:active {
-      transform: translate(2px, 2px);
-      box-shadow: 1px 1px 0px #93c5fd;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 0 #1d4ed8;
     }
 
+    .ocean-btn-white {
+      border: 1.5px solid #cbd5e1;
+      box-shadow: 0 3px 0 0 #cbd5e1;
+      transition: all 0.12s ease;
+    }
+    .ocean-btn-white:hover {
+      border-color: #60a5fa;
+      background-color: #eff6ff;
+    }
+    .ocean-btn-white:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 0 #cbd5e1;
+    }
+
+    /* 3D Flashcard */
     .perspective-1000 { perspective: 1000px; }
     .transform-style-3d { transform-style: preserve-3d; }
     .backface-hidden { backface-visibility: hidden; }
     .rotate-y-180 { transform: rotateY(180deg); }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
-<body class="text-slate-900 pb-20 vi-text">
+<body class="text-slate-900 vi-text">
 
-  <!-- ================= HEADER ================= -->
-  <header class="bg-white border-b-2 border-blue-200 py-3.5 px-6 mb-6 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-5xl mx-auto flex justify-between items-center">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="showRoadmap()">
-        <span class="text-2xl">🌊</span>
-        <div>
-          <h1 class="font-extrabold text-lg sm:text-xl tracking-tight leading-none text-blue-700 vi-text">Tiếng Hàn Tổng Hợp 1</h1>
-          <span class="text-[10px] text-blue-500 font-bold uppercase tracking-wider kr-text">베트남인을 위한 종합 한국어 1</span>
-        </div>
+  <!-- MOBILE TOPBAR -->
+  <header class="lg:hidden sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2.5 cursor-pointer" onclick="navigateSidebar('roadmap')">
+      <span class="bg-gradient-to-br from-blue-600 to-sky-500 text-white font-black px-3 py-1.5 rounded-xl text-sm shadow-sm">한글</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-200" title="Chuỗi ngày học">
+        <span class="text-sm">🔥</span>
+        <span class="font-extrabold text-xs text-amber-700" id="streak-counter-mobile">0</span>
       </div>
-      <div id="nav-actions" class="hidden">
-        <button onclick="showRoadmap()" class="px-4 py-1.5 bg-blue-50 text-blue-700 ocean-btn rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 hover:bg-blue-100 vi-text">
-          ← Danh sách Lộ trình
-        </button>
-      </div>
+      <button onclick="toggleMobileMenu()" class="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-blue-50" aria-label="Mở menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
     </div>
   </header>
 
-  <!-- ================= VIEW 1: ROADMAP (15 BÀI) ================= -->
-  <main id="view-roadmap" class="max-w-4xl mx-auto px-4">
-    <div class="bg-white ocean-border-light ocean-shadow rounded-2xl p-6 mb-8">
-      <div class="flex flex-wrap justify-between items-center mb-2">
-        <h2 class="text-2xl font-black text-slate-900 vi-text">Lộ Trình Sơ Cấp 1 (15 Bài)</h2>
-        <span id="progress-percent-badge" class="bg-blue-500 text-white font-extrabold px-3 py-1 rounded-lg text-xs vi-text">0% Hoàn thành</span>
-      </div>
-      <p class="text-sm text-slate-600 mb-4 leading-relaxed vi-text">
-        Mỗi bài gồm: <b>Từ vựng → Flashcard → Ngữ pháp → Luyện tập → Bài kiểm tra</b>. Hoàn thành bài kiểm tra đạt từ <b class="text-blue-600 font-bold">≥ 70%</b> để mở khóa bài tiếp theo!
-      </p>
-      <div class="w-full bg-blue-100 h-3.5 rounded-full border border-blue-200 overflow-hidden p-0.5 mb-2">
-        <div id="progress-bar" class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: 6.6%;"></div>
-      </div>
-      <p id="progress-text" class="text-xs font-bold text-blue-600 vi-text">Đã hoàn thành 0/15 bài</p>
-    </div>
+  <!-- MOBILE OVERLAY -->
+  <div id="mobile-overlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
 
-    <!-- Timeline List -->
-    <div class="space-y-4 relative before:absolute before:left-[19px] before:top-4 before:bottom-4 before:w-1 before:bg-blue-300 before:z-0" id="roadmap-list">
-      <!-- Rendered by JS -->
-    </div>
-  </main>
-
-  <!-- ================= VIEW 2: CHI TIẾT BÀI HỌC ================= -->
-  <main id="view-lesson" class="max-w-4xl mx-auto px-4 hidden">
-    <!-- Lesson Header -->
-    <div class="bg-white ocean-border-light ocean-shadow rounded-2xl p-6 mb-6">
-      <div class="flex flex-wrap items-center gap-2 mb-3">
-        <span class="bg-blue-600 text-white font-black px-2.5 py-0.5 rounded-md text-xs vi-text">1급</span>
-        <span id="lesson-badge-session" class="bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-md border border-blue-300 text-xs vi-text">Bài 01</span>
-        <span id="lesson-status-badge" class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-md border border-emerald-300 text-xs vi-text">⏳ Đang học</span>
-      </div>
-      <h2 id="lesson-title" class="text-2xl sm:text-3xl font-black mb-1.5 text-slate-900 vi-text">Bài 01: Giới thiệu (소개)</h2>
-      <p id="lesson-desc" class="text-xs sm:text-sm text-slate-500 font-medium vi-text">Quốc gia, nghề nghiệp, lời chào · Ngữ pháp 입니다/입니까, 은/는</p>
-
-      <!-- Tabs Navigation -->
-      <div class="flex flex-wrap gap-2 mt-5 border-t border-blue-100 pt-4">
-        <button onclick="switchTab('vocab')" id="tab-vocab" class="tab-btn px-4 py-2 bg-blue-600 text-white ocean-btn rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
-          📖 Từ vựng
-        </button>
-        <button onclick="switchTab('flashcard')" id="tab-flashcard" class="tab-btn px-4 py-2 bg-white text-slate-700 ocean-btn rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
-          🗂️ Flashcard
-        </button>
-        <button onclick="switchTab('grammar')" id="tab-grammar" class="tab-btn px-4 py-2 bg-white text-slate-700 ocean-btn rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
-          📐 Ngữ pháp
-        </button>
-        <button onclick="switchTab('practice')" id="tab-practice" class="tab-btn px-4 py-2 bg-white text-slate-700 ocean-btn rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
-          ✍️ Luyện tập
-        </button>
-        <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn px-4 py-2 bg-white text-slate-700 ocean-btn rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
-          📝 Bài kiểm tra
-        </button>
-      </div>
-    </div>
-
-    <!-- TAB 1: TỪ VỰNG (ĐÃ BỎ CÂU HƯỚNG DẪN BANNER THEO YÊU CẦU) -->
-    <div id="content-vocab" class="space-y-4">
-      <div id="vocab-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Rendered by JS -->
-      </div>
-    </div>
-
-    <!-- TAB 2: FLASHCARD -->
-    <div id="content-flashcard" class="hidden">
-      <div class="flex justify-between items-center mb-4">
-        <span id="fc-counter" class="font-extrabold text-sm px-3 py-1 bg-white border-2 border-blue-300 rounded-lg ocean-shadow-sm text-blue-700 vi-text">1 / 8</span>
-        <div class="flex gap-2">
-          <button onclick="shuffleFlashcards()" class="px-3 py-1.5 bg-white text-blue-700 ocean-btn rounded-lg text-xs font-bold vi-text">🔀 Xáo trộn</button>
-          <button onclick="speakCurrentCard()" class="px-3 py-1.5 bg-blue-500 text-white ocean-btn rounded-lg text-xs font-bold vi-text">🔊 Nghe từ</button>
-        </div>
-      </div>
-
-      <div class="perspective-1000 w-full h-80 cursor-pointer" onclick="flipCard()">
-        <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-500">
-          <div class="absolute inset-0 bg-blue-50 ocean-border ocean-shadow rounded-2xl p-6 flex flex-col justify-between items-center backface-hidden text-center">
-            <span class="text-xs font-bold bg-white text-blue-700 px-3 py-1 rounded-full border border-blue-300 vi-text" id="fc-type">Từ loại</span>
-            <div>
-              <h3 id="fc-front-word" class="text-4xl sm:text-5xl kr-text text-slate-900 mb-2">한국</h3>
-              <p id="fc-front-romaja" class="text-sm font-bold text-blue-600 vi-text">Hanguk</p>
-            </div>
-            <p class="text-xs text-blue-500 font-semibold animate-pulse vi-text">✨ Bấm vào thẻ để lật xem nghĩa ✨</p>
+  <div class="flex min-h-screen">
+    <!-- ================= SIDEBAR BÊN TRÁI ================= -->
+    <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-50 w-72 lg:w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 h-screen flex-shrink-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-out">
+      <div>
+        <!-- Logo (Đã xóa Nhai TOPIK) & Giữ chuỗi -->
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+          <div class="flex items-center gap-2.5 cursor-pointer" onclick="navigateSidebar('roadmap')">
+            <span class="bg-gradient-to-br from-blue-600 to-sky-500 text-white font-black px-3 py-1.5 rounded-xl text-sm shadow-sm">한글</span>
           </div>
-          <div class="absolute inset-0 bg-cyan-50 ocean-border ocean-shadow rounded-2xl p-6 flex flex-col justify-between items-center backface-hidden rotate-y-180 text-center">
-            <span class="text-xs font-bold bg-white text-cyan-800 px-3 py-1 rounded-full border border-cyan-300 vi-text">Ý nghĩa & Câu mẫu</span>
-            <div class="max-w-md w-full">
-              <h3 id="fc-back-meaning" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3 vi-text">Hàn Quốc</h3>
-              <div class="bg-white/95 p-3 rounded-xl border border-blue-200 text-left">
-                <p id="fc-back-ex-ko" class="font-bold text-slate-900 text-sm kr-text">저는 한국 사람입니다.</p>
-                <p id="fc-back-ex-vi" class="text-xs text-slate-600 vi-text">Tôi là người Hàn Quốc.</p>
-              </div>
-            </div>
-            <p class="text-xs text-slate-400 font-medium vi-text">Bấm lại để xem mặt tiếng Hàn</p>
+          <div class="flex items-center gap-1.5 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-200" title="Chuỗi ngày học">
+            <span class="text-base">🔥</span>
+            <span class="font-extrabold text-xs text-amber-700" id="streak-counter">0</span>
           </div>
         </div>
-      </div>
 
-      <div class="flex justify-between items-center mt-6">
-        <button onclick="prevCard()" class="px-4 py-2 bg-white text-slate-700 ocean-btn rounded-xl font-bold text-sm vi-text">‹ Trước</button>
-        <div class="flex gap-2">
-          <button onclick="nextCard()" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white ocean-btn rounded-xl font-bold text-xs sm:text-sm vi-text">✕ Chưa nhớ</button>
-          <button onclick="nextCard()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white ocean-btn rounded-xl font-bold text-xs sm:text-sm vi-text">✓ Đã thuộc</button>
-        </div>
-        <button onclick="nextCard()" class="px-4 py-2 bg-white text-slate-700 ocean-btn rounded-xl font-bold text-sm vi-text">Sau ›</button>
-      </div>
-    </div>
+        <!-- Danh mục Học Tập -->
+        <div class="space-y-1.5">
+          <div class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider px-3 mb-2">Học Tập</div>
 
-    <!-- TAB 3: NGỮ PHÁP -->
-    <div id="content-grammar" class="space-y-6 hidden">
-      <div id="grammar-list" class="space-y-6">
-        <!-- Rendered by JS -->
-      </div>
-    </div>
+          <button onclick="navigateSidebar('home')" id="side-home" class="w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition">
+            <span class="text-lg">⊞</span>
+            <span>Trang chủ</span>
+          </button>
 
-    <!-- TAB 4: LUYỆN TẬP (CHỈ CÒN DẠNG NGỮ PHÁP - KHÔNG DỊCH NGHĨA) -->
-    <div id="content-practice" class="space-y-6 hidden">
-      <div class="flex justify-between items-center text-xs font-bold text-slate-500 vi-text">
-        <span id="practice-counter" class="bg-white px-2.5 py-1 rounded-md border border-blue-300 text-blue-700 font-bold">Câu 1/20</span>
-        <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold border border-blue-300">Ngữ pháp</span>
-        <span class="hidden sm:inline">Phím 1–4 chọn đáp án · Enter chuyển câu</span>
-      </div>
+          <button onclick="navigateSidebar('roadmap')" id="side-roadmap" class="w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white ocean-btn">
+            <span class="text-lg">⚡</span>
+            <span>Lộ trình</span>
+          </button>
 
-      <!-- Practice Question Box -->
-      <div class="bg-white ocean-border-light ocean-shadow rounded-2xl p-6 sm:p-8 text-center min-h-[190px] flex flex-col justify-center items-center">
-        <span class="text-xs font-bold text-blue-600 uppercase tracking-widest vi-text mb-2">CÂU NÀY DÙNG NGỮ PHÁP GÌ?</span>
-        
-        <!-- Hiển thị câu tiếng Hàn (KHÔNG CÓ DỊCH NGHĨA) -->
-        <div id="practice-display-area" class="w-full my-2"></div>
-      </div>
+          <button onclick="navigateSidebar('dictionary')" id="side-dictionary" class="w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition">
+            <span class="text-lg">📖</span>
+            <span>Tra từ điển</span>
+          </button>
 
-      <!-- 4 Lựa chọn -->
-      <div id="practice-options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Options rendered by JS -->
-      </div>
+          <button onclick="navigateSidebar('vocab-bank')" id="side-vocab" class="w-full min-h-[44px] flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition">
+            <span class="flex items-center gap-3"><span class="text-lg">🔤</span> Từ vựng</span>
+            <span class="text-xs text-slate-400 font-semibold">15 bài</span>
+          </button>
 
-      <!-- Giải thích đáp án thu nhỏ (text-xs) -->
-      <div id="practice-explanation-box" class="hidden bg-blue-50/70 p-3.5 rounded-xl border border-blue-200 ocean-shadow-sm text-xs vi-text">
-        <span id="practice-result-badge" class="font-bold mr-1"></span>
-        <span id="practice-explanation-text" class="text-slate-700"></span>
-      </div>
+          <button onclick="navigateSidebar('grammar-bank')" id="side-grammar" class="w-full min-h-[44px] flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition">
+            <span class="flex items-center gap-3"><span class="text-lg">📚</span> Ngữ pháp</span>
+            <span class="text-xs text-slate-400 font-semibold">45 mẫu</span>
+          </button>
 
-      <div class="flex justify-between items-center pt-1">
-        <div class="text-xs text-slate-400 vi-text">Nhấn Enter để qua câu kế tiếp</div>
-        <button id="btn-next-practice" onclick="nextPracticeQuestion()" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl ocean-btn vi-text">
-          Câu tiếp &rarr;
-        </button>
-      </div>
-    </div>
+          <button onclick="navigateSidebar('review')" id="side-review" class="w-full min-h-[44px] flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition">
+            <span class="flex items-center gap-3"><span class="text-lg">⭐</span> Ôn tập</span>
+            <span class="bg-blue-600 text-white font-extrabold text-[11px] px-2 py-0.5 rounded-full">10</span>
+          </button>
 
-    <!-- TAB 5: BÀI KIỂM TRA (CHỈ CÒN DẠNG NGỮ PHÁP - PASS >= 70%) -->
-    <div id="content-quiz" class="hidden">
-      <div id="test-intro" class="bg-white ocean-border-light ocean-shadow rounded-2xl p-8 text-center max-w-lg mx-auto">
-        <span class="text-5xl">🎯</span>
-        <h3 class="text-2xl font-black mt-3 mb-2 text-slate-900 vi-text">Bài Kiểm Tra</h3>
-        <p class="text-sm text-slate-600 mb-6 vi-text leading-relaxed">
-          Bài kiểm tra gồm 10 câu hỏi nhận diện mẫu ngữ pháp. Cần đạt từ <b class="text-blue-600 font-extrabold">≥ 70% (từ 7/10 câu đúng)</b> để qua vòng và mở khóa bài tiếp theo!
-        </p>
-        <button onclick="startTest()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-black text-lg ocean-btn rounded-xl vi-text">
-          Bắt đầu làm bài
-        </button>
-      </div>
-
-      <div id="test-running" class="space-y-6 hidden">
-        <div class="flex justify-between items-center text-xs font-bold text-slate-500 vi-text">
-          <span id="test-counter" class="bg-white px-2.5 py-1 rounded-md border border-blue-300 text-blue-700 font-bold">Câu 1/10</span>
-          <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold border border-blue-300">Ngữ pháp</span>
-          <span class="text-blue-600 font-extrabold">Đạt ≥ 7/10 câu (70%) để mở khóa</span>
-        </div>
-        
-        <div class="bg-white ocean-border-light ocean-shadow rounded-2xl p-6 sm:p-8 text-center min-h-[190px] flex flex-col justify-center items-center">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-widest vi-text mb-2">CÂU NÀY DÙNG NGỮ PHÁP GÌ?</span>
-          
-          <div id="test-display-area" class="w-full my-2"></div>
-        </div>
-
-        <div id="test-options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Options rendered by JS -->
-        </div>
-
-        <!-- Giải thích thu nhỏ trong bài test -->
-        <div id="test-explanation-box" class="hidden bg-blue-50/70 p-3.5 rounded-xl border border-blue-200 ocean-shadow-sm text-xs vi-text">
-          <span id="test-result-badge" class="font-bold mr-1"></span>
-          <span id="test-explanation-text" class="text-slate-700"></span>
-        </div>
-
-        <div class="flex justify-end pt-1">
-          <button id="btn-next-test" onclick="nextTestQuestion()" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl ocean-btn vi-text">
-            Câu tiếp &rarr;
+          <button onclick="navigateSidebar('mock-test')" id="side-mock" class="w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition">
+            <span class="text-lg">📝</span>
+            <span>Luyện đề</span>
           </button>
         </div>
       </div>
 
-      <!-- Result Modal -->
-      <div id="test-result" class="hidden bg-white ocean-border-light ocean-shadow rounded-2xl p-8 text-center max-w-md mx-auto">
-        <div id="test-result-icon" class="text-5xl mb-2">🎉</div>
-        <h3 id="test-result-title" class="text-2xl font-black text-slate-900 vi-text">Xuất sắc!</h3>
-        <p id="test-result-score" class="text-lg font-bold text-blue-700 my-2 vi-text">Điểm số: 8/10 (80%)</p>
-        <p id="test-result-desc" class="text-xs text-slate-500 mb-6 vi-text leading-relaxed">Bạn đã vượt qua bài kiểm tra và mở khóa bài học kế tiếp.</p>
-        <button onclick="showRoadmap()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold ocean-btn rounded-xl vi-text">
-          Quay lại Lộ trình
+      <!-- Bottom Settings -->
+      <div class="pt-4 border-t border-slate-100">
+        <button onclick="resetAllProgress()" class="w-full min-h-[44px] text-left text-xs font-semibold text-slate-500 hover:text-rose-600 hover:bg-rose-50 px-3 rounded-xl flex items-center gap-2 transition">
+          <span>🔄</span> Đặt lại dữ liệu học
         </button>
       </div>
-    </div>
-  </main>
+    </aside>
 
-  <!-- ================= LOGIC TOÀN BỘ 15 BÀI ================= -->
+    <!-- ================= MAIN CONTENT CONTAINER ================= -->
+    <div class="flex-1 p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto w-full overflow-y-auto">
+
+      <!-- ================= VIEW 1: ROADMAP (15 BÀI) ================= -->
+      <main id="view-roadmap">
+        <div class="ocean-card rounded-2xl p-6 mb-8 bg-gradient-to-br from-white to-blue-50/40">
+          <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
+            <h1 class="text-2xl sm:text-3xl font-black text-slate-900 vi-text">Lộ Trình Sơ Cấp 1 (15 Bài)</h1>
+            <span id="progress-percent-badge" class="bg-blue-600 text-white font-extrabold px-3.5 py-1.5 rounded-full text-xs shadow-sm vi-text">0% Hoàn thành</span>
+          </div>
+          <p class="text-sm text-slate-600 mb-5 leading-relaxed vi-text">
+            Tiến độ được <b class="text-slate-800">tự động lưu vết mỗi ngày</b>. Hoàn thành bài kiểm tra đạt từ <b class="text-blue-600 font-bold">≥ 70%</b> để mở khóa bài tiếp theo!
+          </p>
+          <div class="w-full bg-slate-100 h-4 rounded-full border border-slate-200 overflow-hidden p-0.5 mb-2">
+            <div id="progress-bar" class="bg-gradient-to-r from-blue-600 to-sky-400 h-full rounded-full transition-all duration-500" style="width: 6.6%;"></div>
+          </div>
+          <p id="progress-text" class="text-xs font-bold text-blue-700 vi-text">Đã hoàn thành 0/15 bài</p>
+        </div>
+
+        <div class="space-y-4 relative before:absolute before:left-[19px] before:top-4 before:bottom-4 before:w-1 before:bg-blue-200 before:rounded-full before:z-0" id="roadmap-list">
+          <!-- Rendered by JS -->
+        </div>
+      </main>
+
+      <!-- ================= VIEW 2: CHI TIẾT BÀI HỌC ================= -->
+      <main id="view-lesson" class="hidden">
+        <div class="ocean-card rounded-2xl p-5 sm:p-6 mb-6">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="bg-blue-600 text-white font-black px-2.5 py-1 rounded-lg text-xs vi-text">1급</span>
+              <span id="lesson-badge-session" class="bg-blue-50 text-blue-800 font-bold px-2.5 py-1 rounded-lg border border-blue-200 text-xs vi-text">Bài 01</span>
+              <span id="lesson-status-badge" class="bg-amber-50 text-amber-800 font-bold px-2.5 py-1 rounded-lg border border-amber-200 text-xs vi-text">⏳ Đang học</span>
+            </div>
+            <button onclick="showRoadmap()" class="min-h-[36px] px-3 py-1.5 rounded-lg text-xs font-bold text-blue-600 hover:bg-blue-50 transition">
+              ← Quay lại lộ trình
+            </button>
+          </div>
+          <h2 id="lesson-title" class="text-2xl sm:text-3xl font-black mb-1.5 text-slate-900 vi-text">Bài 01: Giới thiệu (소개)</h2>
+          <p id="lesson-desc" class="text-xs sm:text-sm text-slate-500 font-medium vi-text">Quốc gia, nghề nghiệp, lời chào · Ngữ pháp 입니다/입니까, 은/는</p>
+
+          <!-- Tabs -->
+          <div class="flex flex-wrap gap-2 mt-5 border-t border-slate-100 pt-4">
+            <button onclick="switchTab('vocab')" id="tab-vocab" class="tab-btn min-h-[44px] px-4 py-2 bg-blue-600 text-white ocean-btn rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
+              <span>⊞ Từ vựng</span>
+              <span id="badge-tab-vocab" class="hidden inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-400 text-slate-900 text-[10px] font-black">✓</span>
+            </button>
+            <button onclick="switchTab('flashcard')" id="tab-flashcard" class="tab-btn min-h-[44px] px-4 py-2 bg-white text-slate-700 ocean-btn-white rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
+              <span>🗂️ Flashcard</span>
+              <span id="badge-tab-flashcard" class="hidden inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-400 text-slate-900 text-[10px] font-black">✓</span>
+            </button>
+            <button onclick="switchTab('grammar')" id="tab-grammar" class="tab-btn min-h-[44px] px-4 py-2 bg-white text-slate-700 ocean-btn-white rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
+              <span>📖 Ngữ pháp</span>
+              <span id="badge-tab-grammar" class="hidden inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-400 text-slate-900 text-[10px] font-black">✓</span>
+            </button>
+            <button onclick="switchTab('practice')" id="tab-practice" class="tab-btn min-h-[44px] px-4 py-2 bg-white text-slate-700 ocean-btn-white rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
+              <span>📋 Luyện tập</span>
+              <span id="badge-tab-practice" class="hidden inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-400 text-slate-900 text-[10px] font-black">✓</span>
+            </button>
+            <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn min-h-[44px] px-4 py-2 bg-white text-slate-700 ocean-btn-white rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 vi-text">
+              <span>📝 Bài kiểm tra</span>
+              <span id="badge-tab-quiz" class="hidden inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-400 text-slate-900 text-[10px] font-black">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 1: TỪ VỰNG -->
+        <div id="content-vocab" class="space-y-6">
+          <div id="vocab-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          <div class="flex justify-center pt-2">
+            <button onclick="markSectionComplete('vocab')" class="min-h-[48px] px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2 text-sm vi-text">
+              ✓ Đã học xong danh sách Từ vựng
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 2: FLASHCARD -->
+        <div id="content-flashcard" class="hidden max-w-2xl mx-auto">
+          <div class="flex justify-between items-center mb-4">
+            <span id="fc-counter" class="font-extrabold text-sm px-3.5 py-1.5 bg-white border border-slate-200 rounded-xl shadow-xs text-blue-700 vi-text">1 / 10</span>
+            <div class="flex gap-2">
+              <button onclick="shuffleFlashcards()" class="min-h-[44px] px-3.5 py-2 bg-white text-blue-700 ocean-btn-white rounded-xl text-xs font-bold vi-text">🔀 Xáo trộn</button>
+              <button onclick="speakCurrentCard()" class="min-h-[44px] px-3.5 py-2 bg-blue-600 text-white ocean-btn rounded-xl text-xs font-bold vi-text">🔊 Nghe từ</button>
+            </div>
+          </div>
+
+          <div class="perspective-1000 w-full h-80 sm:h-96 cursor-pointer select-none" onclick="flipCard()">
+            <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-500">
+              <!-- Mặt trước -->
+              <div class="absolute inset-0 bg-gradient-to-br from-white to-blue-50 border-2 border-blue-200 shadow-lg rounded-3xl p-6 flex flex-col justify-between items-center backface-hidden text-center">
+                <span class="text-xs font-bold bg-blue-100 text-blue-800 px-3.5 py-1 rounded-full vi-text" id="fc-type">Từ loại</span>
+                <div>
+                  <h3 id="fc-front-word" class="text-4xl sm:text-5xl kr-text font-black text-slate-900 mb-2">한국</h3>
+                  <p id="fc-front-romaja" class="text-sm font-bold text-blue-600 vi-text">Hanguk</p>
+                </div>
+                <p class="text-xs text-blue-500 font-semibold animate-pulse vi-text">✨ Bấm vào thẻ để lật xem nghĩa ✨</p>
+              </div>
+              <!-- Mặt sau -->
+              <div class="absolute inset-0 bg-gradient-to-br from-white to-sky-50 border-2 border-sky-300 shadow-lg rounded-3xl p-6 flex flex-col justify-between items-center backface-hidden rotate-y-180 text-center">
+                <span class="text-xs font-bold bg-sky-100 text-sky-800 px-3.5 py-1 rounded-full vi-text">Ý nghĩa & Câu mẫu</span>
+                <div class="max-w-md w-full">
+                  <h3 id="fc-back-meaning" class="text-2xl sm:text-3xl font-black text-slate-900 mb-4 vi-text">Hàn Quốc</h3>
+                  <div class="bg-white p-4 rounded-2xl border border-slate-200 text-left shadow-xs">
+                    <p id="fc-back-ex-ko" class="font-bold text-slate-900 text-sm sm:text-base kr-text">저는 한국 사람입니다.</p>
+                    <p id="fc-back-ex-vi" class="text-xs sm:text-sm text-slate-600 mt-1 vi-text">Tôi là người Hàn Quốc.</p>
+                  </div>
+                </div>
+                <p class="text-xs text-slate-400 font-medium vi-text">Bấm lại để xem mặt tiếng Hàn</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center gap-2 mt-6">
+            <button onclick="prevCard()" class="min-h-[44px] px-4 py-2 bg-white text-slate-700 ocean-btn-white rounded-xl font-bold text-sm vi-text">‹ Trước</button>
+            <div class="flex gap-2">
+              <button onclick="nextCard()" class="min-h-[44px] px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold text-xs sm:text-sm shadow-sm transition vi-text">✕ Chưa nhớ</button>
+              <button onclick="markCardKnown()" class="min-h-[44px] px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs sm:text-sm shadow-sm transition vi-text">✓ Đã thuộc</button>
+            </div>
+            <button onclick="nextCard()" class="min-h-[44px] px-4 py-2 bg-white text-slate-700 ocean-btn-white rounded-xl font-bold text-sm vi-text">Sau ›</button>
+          </div>
+        </div>
+
+        <!-- TAB 3: NGỮ PHÁP -->
+        <div id="content-grammar" class="space-y-6 hidden">
+          <div id="grammar-list" class="space-y-6"></div>
+          <div class="flex justify-center pt-2">
+            <button onclick="markSectionComplete('grammar')" class="min-h-[48px] px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition flex items-center gap-2 text-sm vi-text">
+              ✓ Đã học xong Ngữ pháp
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 4: LUYỆN TẬP (20 CÂU) -->
+        <div id="content-practice" class="space-y-6 hidden max-w-3xl mx-auto">
+          <div class="flex justify-between items-center text-xs font-bold text-slate-500 vi-text">
+            <span id="practice-counter" class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 text-blue-700 font-bold shadow-xs">Câu 1/20</span>
+            <span id="practice-type-tag" class="bg-blue-50 text-blue-800 px-3 py-1.5 rounded-lg font-bold border border-blue-200">Dạng bài</span>
+            <span class="hidden sm:inline text-slate-400">Phím 1–4 chọn · Enter qua câu</span>
+          </div>
+
+          <div class="ocean-card rounded-2xl p-6 sm:p-8 text-center min-h-[200px] flex flex-col justify-center items-center">
+            <span id="practice-prompt" class="text-xs font-extrabold text-blue-600 uppercase tracking-widest vi-text mb-2">CÂU HỎI</span>
+            <div id="practice-display-area" class="w-full my-2"></div>
+            <p id="practice-vietnamese" class="text-slate-600 font-medium text-sm sm:text-base vi-text"></p>
+          </div>
+
+          <div id="practice-options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
+
+          <div id="practice-explanation-box" class="hidden bg-blue-50 p-4 rounded-xl border border-blue-200 text-sm vi-text">
+            <span id="practice-result-badge" class="font-bold mr-1"></span>
+            <span id="practice-explanation-text" class="text-slate-700"></span>
+          </div>
+
+          <div class="flex justify-between items-center pt-2">
+            <div class="text-xs text-slate-400 hidden sm:block vi-text">Nhấn Enter để qua câu kế tiếp</div>
+            <button id="btn-next-practice" onclick="nextPracticeQuestion()" class="ml-auto min-h-[48px] px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl ocean-btn vi-text">
+              Câu tiếp &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 5: BÀI KIỂM TRA (10 CÂU - PASS >= 70%) -->
+        <div id="content-quiz" class="hidden max-w-3xl mx-auto">
+          <div id="test-intro" class="ocean-card rounded-3xl p-8 text-center max-w-lg mx-auto">
+            <span class="text-5xl block mb-3">🎯</span>
+            <h3 class="text-2xl font-black mb-2 text-slate-900 vi-text">Bài Kiểm Tra</h3>
+            <p class="text-sm text-slate-600 mb-6 vi-text leading-relaxed">
+              Bài kiểm tra gồm 10 câu hỏi tổng hợp 4 dạng bài. Cần đạt từ <b class="text-blue-600 font-extrabold">≥ 70% (từ 7/10 câu đúng)</b> để được gắn tích xanh và mở khóa bài tiếp theo!
+            </p>
+            <button onclick="startTest()" class="w-full min-h-[48px] py-3 bg-blue-600 hover:bg-blue-700 text-white font-black text-base ocean-btn rounded-xl vi-text">
+              Bắt đầu làm bài
+            </button>
+          </div>
+
+          <div id="test-running" class="space-y-6 hidden">
+            <div class="flex justify-between items-center text-xs font-bold text-slate-500 vi-text">
+              <span id="test-counter" class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 text-blue-700 font-bold">Câu 1/10</span>
+              <span id="test-type-tag" class="bg-blue-50 text-blue-800 px-3 py-1.5 rounded-lg font-bold border border-blue-200">Dạng bài</span>
+              <span class="text-blue-600 font-extrabold hidden sm:inline">Đạt ≥ 7/10 câu (70%) để mở khóa</span>
+            </div>
+            
+            <div class="ocean-card rounded-2xl p-6 sm:p-8 text-center min-h-[200px] flex flex-col justify-center items-center">
+              <span id="test-badge" class="text-xs font-bold text-slate-400 uppercase tracking-widest vi-text mb-2">BÀI THI CHÍNH THỨC</span>
+              <div id="test-display-area" class="w-full my-2"></div>
+              <p id="test-vietnamese-text" class="text-slate-600 font-medium vi-text"></p>
+            </div>
+
+            <div id="test-options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
+
+            <div id="test-explanation-box" class="hidden bg-blue-50 p-4 rounded-xl border border-blue-200 text-sm vi-text">
+              <span id="test-result-badge" class="font-bold mr-1"></span>
+              <span id="test-explanation-text" class="text-slate-700"></span>
+            </div>
+
+            <div class="flex justify-end pt-2">
+              <button id="btn-next-test" onclick="nextTestQuestion()" class="min-h-[48px] px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl ocean-btn vi-text">
+                Câu tiếp &rarr;
+              </button>
+            </div>
+          </div>
+
+          <div id="test-result" class="hidden ocean-card rounded-3xl p-8 text-center max-w-md mx-auto">
+            <div id="test-result-icon" class="text-5xl mb-3">🎉</div>
+            <h3 id="test-result-title" class="text-2xl font-black text-slate-900 vi-text">Xuất sắc!</h3>
+            <p id="test-result-score" class="text-lg font-bold text-blue-700 my-2 vi-text">Điểm số: 8/10 (80%)</p>
+            <p id="test-result-desc" class="text-sm text-slate-500 mb-6 vi-text leading-relaxed">Bạn đã vượt qua bài kiểm tra và mở khóa bài học kế tiếp.</p>
+            <button onclick="showRoadmap()" class="w-full min-h-[48px] py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold ocean-btn rounded-xl vi-text">
+              Quay lại Lộ trình
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <!-- ================= VIEW 3: TRA TỪ ĐIỂN TỰ ĐỘNG ================= -->
+      <main id="view-dictionary" class="hidden space-y-6">
+        <div class="ocean-card rounded-2xl p-6 sm:p-8">
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2 vi-text flex items-center gap-2">
+            <span>📖</span> Tra Từ Điển Tiếng Hàn - Việt
+          </h2>
+          <p class="text-sm text-slate-500 mb-6 vi-text">
+            Tìm kiếm từ vựng trong toàn bộ Sách Sơ Cấp 1. Bạn có thể <b>gõ hoặc dán (copy-paste)</b> từ tiếng Hàn hoặc tiếng Việt vào ô dưới:
+          </p>
+
+          <!-- Search Input Box -->
+          <div class="relative flex items-center mb-5">
+            <input 
+              type="text" 
+              id="dict-search-input" 
+              oninput="handleDictionarySearch()"
+              placeholder="Nhập hoặc dán từ tiếng Hàn / Tiếng Việt cần tra..." 
+              class="w-full min-h-[52px] px-5 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl text-base focus:outline-none focus:border-blue-600 focus:bg-white font-medium pr-28 transition vi-text"
+            >
+            <div class="absolute right-2.5 flex items-center gap-1">
+              <button onclick="pasteFromClipboard()" class="min-h-[36px] px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-xl text-xs font-bold transition vi-text">
+                📋 Dán
+              </button>
+              <button onclick="clearDictSearch()" class="min-h-[36px] min-w-[36px] text-slate-400 hover:text-slate-600 text-sm font-bold rounded-xl hover:bg-slate-200/60">
+                ✕
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Filters -->
+          <div class="flex flex-wrap items-center gap-2 mb-6 text-xs font-bold text-slate-600 vi-text">
+            <span>Gợi ý tra nhanh:</span>
+            <button onclick="setDictSearch('한국')" class="px-3 py-1.5 bg-slate-100 rounded-xl hover:bg-blue-50 hover:text-blue-700 border border-slate-200 transition">한국 (Hàn Quốc)</button>
+            <button onclick="setDictSearch('선생님')" class="px-3 py-1.5 bg-slate-100 rounded-xl hover:bg-blue-50 hover:text-blue-700 border border-slate-200 transition">선생님 (Giáo viên)</button>
+            <button onclick="setDictSearch('학교')" class="px-3 py-1.5 bg-slate-100 rounded-xl hover:bg-blue-50 hover:text-blue-700 border border-slate-200 transition">학교 (Trường học)</button>
+            <button onclick="setDictSearch('비빔밥')" class="px-3 py-1.5 bg-slate-100 rounded-xl hover:bg-blue-50 hover:text-blue-700 border border-slate-200 transition">비빔밥 (Cơm trộn)</button>
+          </div>
+
+          <!-- Kết quả tra từ -->
+          <div id="dict-results-container" class="space-y-3">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ================= LOGIC TOÀN BỘ HỆ THỐNG ================= -->
   <script>
-    /* Dữ liệu 15 Chương chuẩn Tiếng Hàn Tổng Hợp 1 */
+    const STORAGE_KEY = 'korean_app_full_state_v3';
+
+    /* TOÀN BỘ 15 BÀI TỔNG HỢP */
     const allChaptersData = [
       {
         id: 1,
@@ -301,16 +440,27 @@
         time: "~45 phút",
         unlocked: true,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "한국", romaja: "Hanguk", type: "Danh từ", vi: "Hàn Quốc", exKo: "저는 한국 사람입니다.", exVi: "Tôi là người Hàn Quốc." },
-          { ko: "베트남", romaja: "Beteunam", type: "Danh từ", vi: "Việt Nam", exKo: "베트남 사람입니다.", exVi: "Là người Việt Nam." },
-          { ko: "일본", romaja: "Ilbon", type: "Danh từ", vi: "Nhật Bản", exKo: "일본 사람입니까?", exVi: "Là người Nhật Bản phải không?" },
-          { ko: "미국", romaja: "Miguk", type: "Danh từ", vi: "Nước Mỹ", exKo: "미국 사람입니다.", exVi: "Tôi là người Mỹ." },
-          { ko: "학생", romaja: "Haksaeng", type: "Danh từ", vi: "Học sinh, sinh viên", exKo: "학생입니다.", exVi: "Tôi là học sinh." },
-          { ko: "선생님", romaja: "Seonsaengnim", type: "Danh từ", vi: "Thầy/Cô giáo", exKo: "선생님은 한국 사람입니다.", exVi: "Giáo viên là người Hàn Quốc." },
-          { ko: "회사원", romaja: "Hoesawon", type: "Danh từ", vi: "Nhân viên công ty", exKo: "조민재 씨는 회사원입니다.", exVi: "Anh Jo Min Jae là nhân viên công ty." },
-          { ko: "의사", romaja: "Uisa", type: "Danh từ", vi: "Bác sĩ", exKo: "화 씨는 의사입니까?", exVi: "Hoa là bác sĩ phải không?" },
-          { ko: "공무원", romaja: "Gongmuwon", type: "Danh từ", vi: "Công chức nhà nước", exKo: "아버지는 공무원입니다.", exVi: "Bố tôi là công chức." },
+          { ko: "한국", romaja: "Hanguk", type: "Quốc gia", vi: "Hàn Quốc", exKo: "저는 한국 사람입니다.", exVi: "Tôi là người Hàn Quốc." },
+          { ko: "베트남", romaja: "Beteunam", type: "Quốc gia", vi: "Việt Nam", exKo: "베트남 사람입니다.", exVi: "Là người Việt Nam." },
+          { ko: "말레이시아", romaja: "Malle-isia", type: "Quốc gia", vi: "Malaysia", exKo: "말레이시아 사람입니다.", exVi: "Là người Malaysia." },
+          { ko: "일본", romaja: "Ilbon", type: "Quốc gia", vi: "Nhật Bản", exKo: "일본 사람입니까?", exVi: "Là người Nhật Bản phải không?" },
+          { ko: "미국", romaja: "Miguk", type: "Quốc gia", vi: "Nước Mỹ", exKo: "마이클 씨는 미국 사람입니다.", exVi: "Michael là người Mỹ." },
+          { ko: "중국", romaja: "Jungguk", type: "Quốc gia", vi: "Trung Quốc", exKo: "중국 사람입니다.", exVi: "Là người Trung Quốc." },
+          { ko: "태국", romaja: "Taeguk", type: "Quốc gia", vi: "Thái Lan", exKo: "태국 사람입니다.", exVi: "Là người Thái Lan." },
+          { ko: "호주", romaja: "Hoju", type: "Quốc gia", vi: "Nước Úc", exKo: "호주 사람입니다.", exVi: "Là người Úc." },
+          { ko: "학생", romaja: "Haksaeng", type: "Nghề nghiệp", vi: "Học sinh, sinh viên", exKo: "학생입니다.", exVi: "Tôi là học sinh." },
+          { ko: "선생님", romaja: "Seonsaengnim", type: "Nghề nghiệp", vi: "Thầy/Cô giáo", exKo: "선생님은 한국 사람입니다.", exVi: "Giáo viên là người Hàn Quốc." },
+          { ko: "회사원", romaja: "Hoesawon", type: "Nghề nghiệp", vi: "Nhân viên công ty", exKo: "조민재 씨는 회사원입니다.", exVi: "Anh Jo Min Jae là nhân viên công ty." },
+          { ko: "은행원", romaja: "Eunhaeng-won", type: "Nghề nghiệp", vi: "Nhân viên ngân hàng", exKo: "은행원입니다.", exVi: "Là nhân viên ngân hàng." },
+          { ko: "의사", romaja: "Uisa", type: "Nghề nghiệp", vi: "Bác sĩ", exKo: "화 씨는 의사입니까?", exVi: "Hoa là bác sĩ phải không?" },
+          { ko: "공무원", romaja: "Gongmuwon", type: "Nghề nghiệp", vi: "Công chức nhà nước", exKo: "아버지는 공무원입니다.", exVi: "Bố tôi là công chức." },
+          { ko: "관광 가이드", romaja: "Gwangwang ga-ideu", type: "Nghề nghiệp", vi: "Hướng dẫn viên du lịch", exKo: "관광 가이드입니다.", exVi: "Là hướng dẫn viên du lịch." },
+          { ko: "주부", romaja: "Jubu", type: "Nghề nghiệp", vi: "Nội trợ", exKo: "어머니는 주부입니다.", exVi: "Mẹ tôi làm nội trợ." },
+          { ko: "약사", romaja: "Yaksa", type: "Nghề nghiệp", vi: "Dược sĩ", exKo: "약사입니다.", exVi: "Là dược sĩ." },
+          { ko: "운전기사", romaja: "Unjeongisa", type: "Nghề nghiệp", vi: "Tài xế, lái xe", exKo: "운전기사입니다.", exVi: "Là tài xế." },
+          { ko: "안녕하세요", romaja: "Annyeonghaseyo", type: "Chào hỏi", vi: "Xin chào", exKo: "안녕하세요? 반갑습니다.", exVi: "Xin chào? Rất vui được gặp bạn." },
           { ko: "이름", romaja: "Ireum", type: "Danh từ", vi: "Tên", exKo: "제 이름은 남입니다.", exVi: "Tên tôi là Nam." }
         ],
         grammar: [
@@ -341,28 +491,41 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "학교", romaja: "Hakgyo", type: "Danh từ", vi: "Trường học", exKo: "여기는 학교입니다.", exVi: "Đây là trường học." },
-          { ko: "도서관", romaja: "Doseogwan", type: "Danh từ", vi: "Thư viện", exKo: "도서관에 책이 있습니다.", exVi: "Ở thư viện có sách." },
-          { ko: "교실", romaja: "Gyosil", type: "Danh từ", vi: "Phòng học, lớp học", exKo: "교실에 시계가 있습니다.", exVi: "Trong lớp có đồng hồ." },
-          { ko: "책상", romaja: "Chaeksang", type: "Danh từ", vi: "Bàn học", exKo: "책상이 있습니다.", exVi: "Có bàn học." },
-          { ko: "의자", romaja: "Uija", type: "Danh từ", vi: "Cái ghế", exKo: "의자가 없습니다.", exVi: "Không có ghế." },
-          { ko: "시계", romaja: "Sigye", type: "Danh từ", vi: "Đồng hồ", exKo: "시계가 있습니까?", exVi: "Có đồng hồ không?" },
-          { ko: "사전", romaja: "Sajeon", type: "Danh từ", vi: "Từ điển", exKo: "사전이 아닙니다.", exVi: "Không phải từ điển." },
-          { ko: "컴퓨터", romaja: "Keompyuteo", type: "Danh từ", vi: "Máy vi tính", exKo: "컴퓨터가 없습니다.", exVi: "Không có máy tính." }
+          { ko: "학교", romaja: "Hakgyo", type: "Nơi chốn", vi: "Trường học", exKo: "여기는 학교입니다.", exVi: "Đây là trường học." },
+          { ko: "도서관", romaja: "Doseogwan", type: "Nơi chốn", vi: "Thư viện", exKo: "도서관에 책이 있습니다.", exVi: "Ở thư viện có sách." },
+          { ko: "식당", romaja: "Sikdang", type: "Nơi chốn", vi: "Nhà ăn, nhà hàng", exKo: "학생 식당입니다.", exVi: "Là nhà ăn học sinh." },
+          { ko: "호텔", romaja: "Hotel", type: "Nơi chốn", vi: "Khách sạn", exKo: "호텔에 갑니다.", exVi: "Đi tới khách sạn." },
+          { ko: "극장", romaja: "Geukjang", type: "Nơi chốn", vi: "Rạp chiếu phim", exKo: "극장에서 영화를 봅니다.", exVi: "Xem phim ở rạp." },
+          { ko: "우체국", romaja: "Ucheguk", type: "Nơi chốn", vi: "Bưu điện", exKo: "우체국이 가깝습니다.", exVi: "Bưu điện ở gần." },
+          { ko: "병원", romaja: "Byeong-won", type: "Nơi chốn", vi: "Bệnh viện", exKo: "병원에 갑니다.", exVi: "Đi bệnh viện." },
+          { ko: "은행", romaja: "Eunhaeng", type: "Nơi chốn", vi: "Ngân hàng", exKo: "은행에서 일합니다.", exVi: "Làm việc tại ngân hàng." },
+          { ko: "백화점", romaja: "Baekhwajeom", type: "Nơi chốn", vi: "Trung tâm thương mại", exKo: "백화점에서 쇼핑합니다.", exVi: "Mua sắm ở TTTM." },
+          { ko: "약국", romaja: "Yakguk", type: "Nơi chốn", vi: "Hiệu thuốc", exKo: "약국이 있습니다.", exVi: "Có hiệu thuốc." },
+          { ko: "교실", romaja: "Gyosil", type: "Thiết bị", vi: "Phòng học, lớp học", exKo: "교실에 시계가 있습니다.", exVi: "Trong lớp có đồng hồ." },
+          { ko: "화장실", romaja: "Hwajangsil", type: "Thiết bị", vi: "Nhà vệ sinh", exKo: "화장실이 어디입니까?", exVi: "Nhà vệ sinh ở đâu?" },
+          { ko: "책상", romaja: "Chaeksang", type: "Đồ vật", vi: "Bàn học", exKo: "책상이 있습니다.", exVi: "Có bàn học." },
+          { ko: "의자", romaja: "Uija", type: "Đồ vật", vi: "Cái ghế", exKo: "의자가 없습니다.", exVi: "Không có ghế." },
+          { ko: "칠판", romaja: "Chilpan", type: "Đồ vật", vi: "Bảng đen", exKo: "칠판을 봅니다.", exVi: "Nhìn lên bảng." },
+          { ko: "창문", romaja: "Changmun", type: "Đồ vật", vi: "Cửa sổ", exKo: "창문을 엽니다.", exVi: "Mở cửa sổ." },
+          { ko: "시계", romaja: "Sigye", type: "Đồ vật", vi: "Đồng hồ", exKo: "시계가 있습니까?", exVi: "Có đồng hồ không?" },
+          { ko: "가방", romaja: "Gabang", type: "Đồ vật", vi: "Cặp sách, ba lô", exKo: "가방이 큽니다.", exVi: "Cặp sách to." },
+          { ko: "컴퓨터", romaja: "Keompyuteo", type: "Đồ vật", vi: "Máy vi tính", exKo: "컴퓨터가 없습니다.", exVi: "Không có máy tính." },
+          { ko: "사전", romaja: "Sajeon", type: "Đồ vật", vi: "Từ điển", exKo: "사전이 아닙니다.", exVi: "Không phải từ điển." }
         ],
         grammar: [
           {
             title: "1. 여기 / 거기 / 저기 & 이것 / 그것 / 저것",
-            desc: "Đại từ chỉ vị trí (đây, đó, kia) và đại từ chỉ đồ vật (cái này, cái đó, cái kia).",
-            rule: "• 여기/거기/저기: Nơi chốn<br>• 이것/그것/저것: Đồ vật",
-            examples: [{ ko: "여기는 도서관입니다.", vi: "Đây là thư viện." }]
+            desc: "Đại từ chỉ vị trí (đây, đó, kia) và đồ vật (cái này, cái đó, cái kia).",
+            rule: "• Nơi chốn: 여기/거기/저기<br>• Đồ vật: 이것/그것/저것",
+            examples: [{ ko: "여기는 도서관입니다.", vi: "Đây là thư viện." }, { ko: "이것은 책입니다.", vi: "Cái này là sách." }]
           },
           {
             title: "2. 이/가 있습니다/없습니다",
             desc: "Biểu thị có hoặc không có cái gì ở đâu.",
             rule: "Có patchim + <b>이 있습니다</b> / Không patchim + <b>가 있습니다</b>",
-            examples: [{ ko: "책상이 있습니다.", vi: "Có bàn học." }]
+            examples: [{ ko: "책상이 있습니다.", vi: "Có bàn học." }, { ko: "의자가 없습니다.", vi: "Không có ghế." }]
           },
           {
             title: "3. 이/가 아닙니다",
@@ -375,18 +538,29 @@
       {
         id: 3,
         title: "Bài 03: Sinh hoạt hàng ngày (일상생활)",
-        desc: "Động từ hành động · Ngữ pháp -ㅂ/습니다, 을/를, 에서",
+        desc: "Động từ hành động, tính từ · Ngữ pháp -ㅂ/습니다, 을/를, 에서",
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
+          { ko: "가다", romaja: "Gada", type: "Động từ", vi: "Đi", exKo: "학교에 갑니다.", exVi: "Đi đến trường." },
+          { ko: "오다", romaja: "Oda", type: "Động từ", vi: "Đến, về", exKo: "집에 옵니다.", exVi: "Về nhà." },
           { ko: "자다", romaja: "Jada", type: "Động từ", vi: "Ngủ", exKo: "흐엉 씨가 잡니다.", exVi: "Hương đang ngủ." },
           { ko: "먹다", romaja: "Meokda", type: "Động từ", vi: "Ăn", exKo: "빵을 먹습니다.", exVi: "Ăn bánh mì." },
           { ko: "마시다", romaja: "Masida", type: "Động từ", vi: "Uống", exKo: "물을 마십니다.", exVi: "Uống nước." },
+          { ko: "이야기하다", romaja: "Iyagihada", type: "Động từ", vi: "Nói chuyện", exKo: "친구와 이야기합니다.", exVi: "Nói chuyện với bạn." },
           { ko: "읽다", romaja: "Ikda", type: "Động từ", vi: "Đọc", exKo: "책을 읽습니다.", exVi: "Đọc sách." },
+          { ko: "듣다", romaja: "Deutda", type: "Động từ", vi: "Nghe", exKo: "음악을 듣습니다.", exVi: "Nghe nhạc." },
+          { ko: "보다", romaja: "Boda", type: "Động từ", vi: "Xem, nhìn", exKo: "영화를 봅니다.", exVi: "Xem phim." },
+          { ko: "일하다", romaja: "Ilhada", type: "Động từ", vi: "Làm việc", exKo: "회사에서 일합니다.", exVi: "Làm việc ở công ty." },
           { ko: "공부하다", romaja: "Gongbuhada", type: "Động từ", vi: "Học tập", exKo: "한국어를 공부합니다.", exVi: "Học tiếng Hàn." },
+          { ko: "운동하다", romaja: "Undonghada", type: "Động từ", vi: "Tập thể thao", exKo: "공원에서 운동합니다.", exVi: "Tập thể dục ở công viên." },
           { ko: "만나다", romaja: "Mannada", type: "Động từ", vi: "Gặp gỡ", exKo: "친구를 만납니다.", exVi: "Gặp bạn bè." },
-          { ko: "신문", romaja: "Sinmun", type: "Danh từ", vi: "Báo chí", exKo: "신문을 봅니다.", exVi: "Xem báo." }
+          { ko: "사다", romaja: "Sada", type: "Động từ", vi: "Mua", exKo: "옷을 삽니다.", exVi: "Mua quần áo." },
+          { ko: "좋아하다", romaja: "Joahada", type: "Động từ", vi: "Thích", exKo: "한국 음식을 좋아합니다.", exVi: "Thích món ăn Hàn Quốc." },
+          { ko: "크다", romaja: "Keuda", type: "Tính từ", vi: "To, lớn", exKo: "가방이 큽니다.", exVi: "Cái cặp to." },
+          { ko: "작다", romaja: "Jakda", type: "Tính từ", vi: "Nhỏ, bé", exKo: "방이 작습니다.", exVi: "Căn phòng nhỏ." }
         ],
         grammar: [
           {
@@ -416,12 +590,18 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "월요일", romaja: "Woryoil", type: "Danh từ", vi: "Thứ hai", exKo: "월요일에 시험이 있어요.", exVi: "Thứ hai có bài thi." },
-          { ko: "화요일", romaja: "Hwayoil", type: "Danh từ", vi: "Thứ ba", exKo: "화요일에 만나요.", exVi: "Gặp nhau vào thứ ba." },
-          { ko: "일요일", romaja: "Iryoil", type: "Danh từ", vi: "Chủ nhật", exKo: "일요일에 쉽니다.", exVi: "Chủ nhật tôi nghỉ ngơi." },
-          { ko: "오늘", romaja: "Oneul", type: "Danh từ", vi: "Hôm nay", exKo: "오늘이 몇 월 며칠입니까?", exVi: "Hôm nay là ngày mấy?" },
-          { ko: "내일", romaja: "Naeil", type: "Danh từ", vi: "Ngày mai", exKo: "내일 친구를 만나요.", exVi: "Ngày mai gặp bạn." },
+          { ko: "월요일", romaja: "Woryoil", type: "Thứ", vi: "Thứ hai", exKo: "월요일에 시험이 있어요.", exVi: "Thứ hai có bài thi." },
+          { ko: "화요일", romaja: "Hwayoil", type: "Thứ", vi: "Thứ ba", exKo: "화요일에 만나요.", exVi: "Gặp nhau vào thứ ba." },
+          { ko: "수요일", romaja: "Suyo-il", type: "Thứ", vi: "Thứ tư", exKo: "수요일에 운동해요.", exVi: "Tập thể dục thứ tư." },
+          { ko: "목요일", romaja: "Mogyoil", type: "Thứ", vi: "Thứ năm", exKo: "목요일에 수업이 있어요.", exVi: "Thứ năm có giờ học." },
+          { ko: "금요일", romaja: "Geumyoil", type: "Thứ", vi: "Thứ sáu", exKo: "금요일에 만납시다.", exVi: "Gặp nhau vào thứ sáu." },
+          { ko: "토요일", romaja: "Toyoil", type: "Thứ", vi: "Thứ bảy", exKo: "토요일에 쉬어요.", exVi: "Thứ bảy nghỉ ngơi." },
+          { ko: "일요일", romaja: "Iryoil", type: "Thứ", vi: "Chủ nhật", exKo: "일요일에 등산해요.", exVi: "Chủ nhật đi leo núi." },
+          { ko: "오늘", romaja: "Oneul", type: "Thời gian", vi: "Hôm nay", exKo: "오늘이 며칠입니까?", exVi: "Hôm nay là ngày mấy?" },
+          { ko: "내일", romaja: "Naeil", type: "Thời gian", vi: "Ngày mai", exKo: "내일 친구를 만나요.", exVi: "Ngày mai gặp bạn." },
+          { ko: "어제", romaja: "Eoje", type: "Thời gian", vi: "Hôm qua", exKo: "어제 영화를 봤어요.", exVi: "Hôm qua đã xem phim." },
           { ko: "생일", romaja: "Saeng-il", type: "Danh từ", vi: "Sinh nhật", exKo: "생일 파티를 합니다.", exVi: "Tổ chức sinh nhật." }
         ],
         grammar: [
@@ -452,13 +632,15 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
           { ko: "일어나다", romaja: "Ireonada", type: "Động từ", vi: "Thức dậy", exKo: "아침 7시에 일어나요.", exVi: "Thức dậy lúc 7 giờ sáng." },
-          { ko: "세수하다", romaja: "Sesuhada", type: "Động từ", vi: "Rửa mặt", exKo: "세수하고 이를 닦아요.", exVi: "Rửa mặt và đánh răng." },
-          { ko: "아침", romaja: "Achim", type: "Danh từ", vi: "Buổi sáng, bữa sáng", exKo: "아침을 먹어요.", exVi: "Ăn sáng." },
-          { ko: "점심", romaja: "Jeomsim", type: "Danh từ", vi: "Buổi trưa, bữa trưa", exKo: "점심에 밥을 먹어요.", exVi: "Ăn cơm trưa." },
-          { ko: "저녁", romaja: "Jeonyeok", type: "Danh từ", vi: "Buổi tối, bữa tối", exKo: "저녁에 집에 가요.", exVi: "Buổi tối về nhà." },
-          { ko: "회사", romaja: "Hoesa", type: "Danh từ", vi: "Công ty", exKo: "회사에 출근해요.", exVi: "Đi làm ở công ty." }
+          { ko: "이를 닦다", romaja: "Ireul dakda", type: "Động từ", vi: "Đánh răng", exKo: "이를 닦습니다.", exVi: "Đánh răng." },
+          { ko: "세수하다", romaja: "Sesuhada", type: "Động từ", vi: "Rửa mặt", exKo: "세수하고 밥을 먹어요.", exVi: "Rửa mặt rồi ăn cơm." },
+          { ko: "아침", romaja: "Achim", type: "Thời gian", vi: "Buổi sáng, bữa sáng", exKo: "아침을 먹어요.", exVi: "Ăn sáng." },
+          { ko: "점심", romaja: "Jeomsim", type: "Thời gian", vi: "Buổi trưa, bữa trưa", exKo: "점심에 밥을 먹어요.", exVi: "Ăn cơm trưa." },
+          { ko: "저녁", romaja: "Jeonyeok", type: "Thời gian", vi: "Buổi tối, bữa tối", exKo: "저녁에 집에 가요.", exVi: "Buổi tối về nhà." },
+          { ko: "회사", romaja: "Hoesa", type: "Nơi chốn", vi: "Công ty", exKo: "회사에 출근해요.", exVi: "Đi làm ở công ty." }
         ],
         grammar: [
           {
@@ -488,6 +670,7 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
           { ko: "등산하다", romaja: "Deungsanhada", type: "Động từ", vi: "Leo núi", exKo: "주말에 등산했어요.", exVi: "Cuối tuần tôi đã leo núi." },
           { ko: "쇼핑하다", romaja: "Syopinghada", type: "Động từ", vi: "Mua sắm", exKo: "백화점에서 쇼핑했어요.", exVi: "Tôi đã mua sắm ở TTTM." },
@@ -522,6 +705,7 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
           { ko: "얼마", romaja: "Eolma", type: "Đại từ", vi: "Bao nhiêu", exKo: "이거 얼마예요?", exVi: "Cái này bao nhiêu tiền?" },
           { ko: "비싸다", romaja: "Bissada", type: "Tính từ", vi: "Đắt", exKo: "너무 비싸요.", exVi: "Đắt quá." },
@@ -551,9 +735,10 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "비빔밥", romaja: "Bibimbap", type: "Danh từ", vi: "Cơm trộn", exKo: "비빔밥을 먹겠습니다.", exVi: "Tôi sẽ ăn cơm trộn." },
-          { ko: "불고기", romaja: "Bulgogi", type: "Danh từ", vi: "Thịt bò xào gia vị", exKo: "불고기가 맛있어요.", exVi: "Bulgogi ngon." },
+          { ko: "비빔밥", romaja: "Bibimbap", type: "Thức ăn", vi: "Cơm trộn", exKo: "비빔밥을 먹겠습니다.", exVi: "Tôi sẽ ăn cơm trộn." },
+          { ko: "불고기", romaja: "Bulgogi", type: "Thức ăn", vi: "Thịt bò xào gia vị", exKo: "불고기가 맛있어요.", exVi: "Bulgogi ngon." },
           { ko: "맵다", romaja: "Maepda", type: "Tính từ", vi: "Cay", exKo: "김치가 맵습니다.", exVi: "Kim chi cay." },
           { ko: "짜다", romaja: "Jjada", type: "Tính từ", vi: "Mặn", exKo: "음식이 짜요.", exVi: "Món ăn mặn." },
           { ko: "달다", romaja: "Dalda", type: "Tính từ", vi: "Ngọt", exKo: "케이크가 달아요.", exVi: "Bánh kem ngọt." }
@@ -586,12 +771,13 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "위", romaja: "Wi", type: "Danh từ", vi: "Bên trên", exKo: "책상 위", exVi: "Trên bàn" },
-          { ko: "아래", romaja: "Arae", type: "Danh từ", vi: "Bên dưới", exKo: "탁자 아래", exVi: "Dưới bàn" },
-          { ko: "앞", romaja: "Ap", type: "Danh từ", vi: "Phía trước", exKo: "앞으로 가세요.", exVi: "Đi về phía trước." },
-          { ko: "뒤", romaja: "Dwi", type: "Danh từ", vi: "Phía sau", exKo: "학교 뒤", exVi: "Sau trường" },
-          { ko: "거실", romaja: "Geosil", type: "Danh từ", vi: "Phòng khách", exKo: "거실이 넓어요.", exVi: "Phòng khách rộng." }
+          { ko: "위", romaja: "Wi", type: "Vị trí", vi: "Bên trên", exKo: "책상 위", exVi: "Trên bàn" },
+          { ko: "아래", romaja: "Arae", type: "Vị trí", vi: "Bên dưới", exKo: "탁자 아래", exVi: "Dưới bàn" },
+          { ko: "앞", romaja: "Ap", type: "Vị trí", vi: "Phía trước", exKo: "앞으로 가세요.", exVi: "Đi về phía trước." },
+          { ko: "뒤", romaja: "Dwi", type: "Vị trí", vi: "Phía sau", exKo: "학교 뒤", exVi: "Sau trường" },
+          { ko: "거실", romaja: "Geosil", type: "Nhà cửa", vi: "Phòng khách", exKo: "거실이 넓어요.", exVi: "Phòng khách rộng." }
         ],
         grammar: [
           {
@@ -615,11 +801,12 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "아버지", romaja: "Abeoji", type: "Danh từ", vi: "Bố, ba", exKo: "아버지께서 오십니다.", exVi: "Bố đến." },
-          { ko: "어머니", romaja: "Eomeoni", type: "Danh từ", vi: "Mẹ, má", exKo: "어머니는 친절하세요.", exVi: "Mẹ rất thân thiện." },
-          { ko: "할아버지", romaja: "Harabeoji", type: "Danh từ", vi: "Ông nội", exKo: "할아버지 연세", exVi: "Tuổi của ông" },
-          { ko: "연세", romaja: "Yeonse", type: "Danh từ", vi: "Tuổi (kính ngữ)", exKo: "연세가 많으세요.", exVi: "Đã cao tuổi." },
+          { ko: "아버지", romaja: "Abeoji", type: "Gia đình", vi: "Bố, ba", exKo: "아버지께서 오십니다.", exVi: "Bố đến." },
+          { ko: "어머니", romaja: "Eomeoni", type: "Gia đình", vi: "Mẹ, má", exKo: "어머니는 친절하세요.", exVi: "Mẹ rất thân thiện." },
+          { ko: "할아버지", romaja: "Harabeoji", type: "Gia đình", vi: "Ông nội", exKo: "할아버지 연세", exVi: "Tuổi của ông" },
+          { ko: "연세", romaja: "Yeonse", type: "Kính ngữ", vi: "Tuổi (kính ngữ)", exKo: "연세가 많으세요.", exVi: "Đã cao tuổi." },
           { ko: "살다", romaja: "Salda", type: "Động từ", vi: "Sống", exKo: "하노이에 삽니다.", exVi: "Sống ở Hà Nội." }
         ],
         grammar: [
@@ -644,11 +831,12 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "봄", romaja: "Bom", type: "Danh từ", vi: "Mùa xuân", exKo: "봄이 왔어요.", exVi: "Mùa xuân đã đến." },
-          { ko: "여름", romaja: "Yeoreum", type: "Danh từ", vi: "Mùa hè", exKo: "여름은 덥습니다.", exVi: "Mùa hè nóng." },
-          { ko: "가을", romaja: "Gaeul", type: "Danh từ", vi: "Mùa thu", exKo: "가을은 시원해요.", exVi: "Mùa thu mát." },
-          { ko: "겨울", romaja: "Gyeoul", type: "Danh từ", vi: "Mùa đông", exKo: "겨울은 추워요.", exVi: "Mùa đông lạnh." },
+          { ko: "봄", romaja: "Bom", type: "Mùa", vi: "Mùa xuân", exKo: "봄이 왔어요.", exVi: "Mùa xuân đã đến." },
+          { ko: "여름", romaja: "Yeoreum", type: "Mùa", vi: "Mùa hè", exKo: "여름은 덥습니다.", exVi: "Mùa hè nóng." },
+          { ko: "가을", romaja: "Gaeul", type: "Mùa", vi: "Mùa thu", exKo: "가을은 시원해요.", exVi: "Mùa thu mát." },
+          { ko: "겨울", romaja: "Gyeoul", type: "Mùa", vi: "Mùa đông", exKo: "겨울은 추워요.", exVi: "Mùa đông lạnh." },
           { ko: "춥다", romaja: "Chupda", type: "Tính từ", vi: "Lạnh", exKo: "추워요.", exVi: "Trời lạnh." },
           { ko: "덥다", romaja: "Deopda", type: "Tính từ", vi: "Nóng", exKo: "더워요.", exVi: "Trời nóng." }
         ],
@@ -680,10 +868,11 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "전화", romaja: "Jeonhwa", type: "Danh từ", vi: "Điện thoại", exKo: "전화 왔어요.", exVi: "Có điện thoại gọi đến." },
-          { ko: "휴대전화", romaja: "Hyudaejeonhwa", type: "Danh từ", vi: "Điện thoại di động", exKo: "휴대전화 번호", exVi: "Số điện thoại di động" },
-          { ko: "문자메시지", romaja: "Munjamesiji", type: "Danh từ", vi: "Tin nhắn văn bản", exKo: "문자를 보내요.", exVi: "Gửi tin nhắn." },
+          { ko: "전화", romaja: "Jeonhwa", type: "Điện thoại", vi: "Điện thoại", exKo: "전화 왔어요.", exVi: "Có điện thoại gọi đến." },
+          { ko: "휴대전화", romaja: "Hyudaejeonhwa", type: "Điện thoại", vi: "Điện thoại di động", exKo: "휴대전화 번호", exVi: "Số điện thoại di động" },
+          { ko: "문자메시지", romaja: "Munjamesiji", type: "Điện thoại", vi: "Tin nhắn văn bản", exKo: "문자를 보내요.", exVi: "Gửi tin nhắn." },
           { ko: "여보세요", romaja: "Yeoboseyo", type: "Thán từ", vi: "A-lô", exKo: "여보세요?", exVi: "A-lô?" }
         ],
         grammar: [
@@ -708,11 +897,12 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "선물", romaja: "Seonmul", type: "Danh từ", vi: "Món quà", exKo: "생일 선물", exVi: "Quà sinh nhật" },
-          { ko: "케이크", romaja: "Ke-ikeu", type: "Danh từ", vi: "Bánh kem", exKo: "케이크를 샀어요.", exVi: "Tôi đã mua bánh kem." },
+          { ko: "선물", romaja: "Seonmul", type: "Quà tặng", vi: "Món quà", exKo: "생일 선물", exVi: "Quà sinh nhật" },
+          { ko: "케이크", romaja: "Ke-ikeu", type: "Bánh kem", vi: "Bánh kem", exKo: "케이크를 샀어요.", exVi: "Tôi đã mua bánh kem." },
           { ko: "초대하다", romaja: "Chodaehada", type: "Động từ", vi: "Mời", exKo: "친구를 초대해요.", exVi: "Mời bạn bè." },
-          { ko: "지갑", romaja: "Jigap", type: "Danh từ", vi: "Cái ví tiền", exKo: "지갑을 샀어요.", exVi: "Đã mua ví." }
+          { ko: "지갑", romaja: "Jigap", type: "Đồ vật", vi: "Cái ví tiền", exKo: "지갑을 샀어요.", exVi: "Đã mua ví." }
         ],
         grammar: [
           {
@@ -742,10 +932,11 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "취미", romaja: "Chwimi", type: "Danh từ", vi: "Sở thích", exKo: "취미가 뭐예요?", exVi: "Sở thích của bạn là gì?" },
-          { ko: "독서", romaja: "Dokseo", type: "Danh từ", vi: "Đọc sách", exKo: "독서를 좋아해요.", exVi: "Tôi thích đọc sách." },
-          { ko: "수영", romaja: "Suyeong", type: "Danh từ", vi: "Bơi lội", exKo: "수영을 해요.", exVi: "Bơi lội." },
+          { ko: "취미", romaja: "Chwimi", type: "Sở thích", vi: "Sở thích", exKo: "취미가 뭐예요?", exVi: "Sở thích của bạn là gì?" },
+          { ko: "독서", romaja: "Dokseo", type: "Sở thích", vi: "Đọc sách", exKo: "독서를 좋아해요.", exVi: "Tôi thích đọc sách." },
+          { ko: "수영", romaja: "Suyeong", type: "Thể thao", vi: "Bơi lội", exKo: "수영을 해요.", exVi: "Bơi lội." },
           { ko: "듣다", romaja: "Deutda", type: "Động từ", vi: "Nghe", exKo: "음악을 들어요.", exVi: "Nghe nhạc." }
         ],
         grammar: [
@@ -770,10 +961,11 @@
         time: "~45 phút",
         unlocked: false,
         completed: false,
+        tabsCompleted: { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false },
         vocab: [
-          { ko: "버스", romaja: "Beoseu", type: "Danh từ", vi: "Xe buýt", exKo: "버스로 가요.", exVi: "Đi bằng xe buýt." },
-          { ko: "지하철", romaja: "Jihacheol", type: "Danh từ", vi: "Tàu điện ngầm", exKo: "지하철을 타요.", exVi: "Đi tàu điện ngầm." },
-          { ko: "비행기", romaja: "Bihaenggi", type: "Danh từ", vi: "Máy bay", exKo: "비행기로 왔어요.", exVi: "Đến bằng máy bay." },
+          { ko: "버스", romaja: "Beoseu", type: "Phương tiện", vi: "Xe buýt", exKo: "버스로 가요.", exVi: "Đi bằng xe buýt." },
+          { ko: "지하철", romaja: "Jihacheol", type: "Phương tiện", vi: "Tàu điện ngầm", exKo: "지하철을 타요.", exVi: "Đi tàu điện ngầm." },
+          { ko: "비행기", romaja: "Bihaenggi", type: "Phương tiện", vi: "Máy bay", exKo: "비행기로 왔어요.", exVi: "Đến bằng máy bay." },
           { ko: "타다", romaja: "Tada", type: "Động từ", vi: "Lên xe, đi xe", exKo: "택시를 타요.", exVi: "Đi taxi." },
           { ko: "내리다", romaja: "Naerida", type: "Động từ", vi: "Xuống xe", exKo: "여기에서 내려요.", exVi: "Xuống ở đây." }
         ],
@@ -801,6 +993,7 @@
     ];
 
     let currentLesson = allChaptersData[0];
+    let currentTab = 'vocab';
     let currentFCIndex = 0;
     let isFlipped = false;
     let practiceList = [];
@@ -811,154 +1004,324 @@
     let testScore = 0;
     let testAnswered = false;
 
-    /* TỔNG HỢP TOÀN BỘ CÂU VÍ DỤ NGỮ PHÁP 15 BÀI */
-    const grammarSentencesDB = [
-      // Bài 1
-      { ko: "저는 화입니다.", grammar: "입니다" },
-      { ko: "베트남 사람입니다.", grammar: "입니다" },
-      { ko: "학생입니다.", grammar: "입니다" },
-      { ko: "남 씨입니까?", grammar: "입니까?" },
-      { ko: "회사원입니까?", grammar: "입니까?" },
-      { ko: "저는 남입니다.", grammar: "은 / 는" },
-      { ko: "선생님은 한국 사람입니다.", grammar: "은 / 는" },
-      // Bài 2
-      { ko: "여기는 학교입니다.", grammar: "여기 · 거기 · 저기" },
-      { ko: "저기는 병원입니다.", grammar: "여기 · 거기 · 저기" },
-      { ko: "이것은 책입니다.", grammar: "이것 · 그것 · 저것" },
-      { ko: "저것은 컴퓨터입니다.", grammar: "이것 · 그것 · 저것" },
-      { ko: "교실에 시계가 있습니다.", grammar: "이/가 있습니다/없습니다" },
-      { ko: "의자가 없습니다.", grammar: "이/가 있습니다/없습니다" },
-      { ko: "사전이 아닙니다.", grammar: "이/가 아닙니다" },
-      // Bài 3
-      { ko: "흐엉 씨가 잡니다.", grammar: "-ㅂ/습니다" },
-      { ko: "한국어를 공부합니다.", grammar: "-ㅂ/습니다" },
-      { ko: "무엇을 마십니까?", grammar: "-ㅂ/습니까?" },
-      { ko: "빵을 먹습니다.", grammar: "을 / 를" },
-      { ko: "책을 읽습니다.", grammar: "을 / 를" },
-      { ko: "도서관에서 공부합니다.", grammar: "에서 (địa điểm)" },
-      { ko: "집에서 쉽니다.", grammar: "에서 (địa điểm)" },
-      // Bài 4
-      { ko: "오늘은 10월 9일입니다.", grammar: "Số từ Hán Hàn" },
-      { ko: "제 전화번호는 764-7825입니다.", grammar: "Số từ Hán Hàn" },
-      { ko: "책상과 의자가 있습니다.", grammar: "와 / 과" },
-      { ko: "시계와 가방이 있습니다.", grammar: "와 / 과" },
-      { ko: "토요일에 영화를 봅니다.", grammar: "에 (thời gian)" },
-      { ko: "12월 10일에 시험을 봅니다.", grammar: "에 (thời gian)" },
-      // Bài 5
-      { ko: "지금 두 시예요.", grammar: "Số từ thuần Hàn" },
-      { ko: "열두 시 삼십 분입니다.", grammar: "Số từ thuần Hàn" },
-      { ko: "학교에서 공부해요.", grammar: "-아/어요" },
-      { ko: "아침에 세수해요.", grammar: "-아/어요" },
-      { ko: "학교에 안 가요.", grammar: "안 (phủ định)" },
-      { ko: "사과를 안 먹어요.", grammar: "안 (phủ định)" },
-      { ko: "지금 학교에 가요.", grammar: "에 가다" },
-      // Bài 6
-      { ko: "어제 영화를 봤어요.", grammar: "-았/었- (quá khứ)" },
-      { ko: "주말에 등산했어요.", grammar: "-았/었- (quá khứ)" },
-      { ko: "친구하고 영화를 봤어요.", grammar: "하고" },
-      { ko: "빵하고 우유를 샀어요.", grammar: "하고" },
-      { ko: "같이 영화를 봅시다.", grammar: "-(으)ㅂ시다" },
-      { ko: "불고기를 먹읍시다.", grammar: "-(으)ㅂ시다" },
-      // Bài 7
-      { ko: "한국에 가고 싶어요.", grammar: "-고 싶다" },
-      { ko: "컴퓨터를 사고 싶습니다.", grammar: "-고 싶다" },
-      { ko: "민준 씨는 키가 커요.", grammar: "Giản lược ㅡ" },
-      { ko: "오늘 너무 바빠요.", grammar: "Giản lược ㅡ" },
-      { ko: "라면은 쌉니다. 불고기는 비쌉니다.", grammar: "은 / 는 (đối chiếu)" },
-      // Bài 8
-      { ko: "저는 비빔밥을 먹겠습니다.", grammar: "-겠-" },
-      { ko: "콜라를 마시겠어요.", grammar: "-겠-" },
-      { ko: "맵지 않아요.", grammar: "-지 않다" },
-      { ko: "달지 않습니다.", grammar: "-지 않td>" },
-      { ko: "여기에 앉으세요.", grammar: "-(으)세요" },
-      { ko: "어서 오세요.", grammar: "-(으)세요" },
-      // Bài 9
-      { ko: "오른쪽으로 가세요.", grammar: "(으)로 (phương hướng)" },
-      { ko: "앞으로 가세요.", grammar: "(으)로 (phương hướng)" },
-      { ko: "같이 영화 볼래요?", grammar: "-(으)ㄹ래요" },
-      { ko: "비빔밥 먹을래요?", grammar: "-(으)ㄹ래요" },
-      { ko: "저도 한국 사람이에요.", grammar: "도 (cũng)" },
-      // Bài 10
-      { ko: "아버지께서 오십니다.", grammar: "께서 (kính ngữ)" },
-      { ko: "선생님께서 전화하셨어요.", grammar: "께서 (kính ngữ)" },
-      { ko: "선생님은 한국 분이세요.", grammar: "-(으)시-" },
-      { ko: "베트남에 삽니다.", grammar: "Giản lược ㄹ" },
-      // Bài 11
-      { ko: "비가 오고 바람이 불어요.", grammar: "-고 (liên từ)" },
-      { ko: "1시부터 5시까지 일해요.", grammar: "부터 ~ 까지" },
-      { ko: "내일 한국에 갈 거예요.", grammar: "-(으)ㄹ 거예요" },
-      { ko: "날씨가 추워요.", grammar: "Bất quy tắc ㅂ" },
-      // Bài 12
-      { ko: "친구한테 전화했어요.", grammar: "에게 / 한테 / 께" },
-      { ko: "선생님께 편지를 드려요.", grammar: "에게 / 한테 / 께" },
-      { ko: "어렵지만 재미있어요.", grammar: "-지만" },
-      { ko: "수영을 배우려고 해요.", grammar: "-(으)려고 하다" },
-      // Bài 13
-      { ko: "배가 아파서 병원에 갔어요.", grammar: "-아/어서 (nguyên nhân)" },
-      { ko: "피곤해서 일찍 잤어요.", grammar: "-아/어서 (nguyên nhân)" },
-      { ko: "같이 점심을 먹을까요?", grammar: "-(으)ㄹ까요?" },
-      { ko: "학교에 못 갔어요.", grammar: "못 (không thể)" },
-      // Bài 14
-      { ko: "한국어를 할 수 있어요.", grammar: "-(으)ㄹ 수 있다/없다" },
-      { ko: "제 취미는 영화 보기예요.", grammar: "-기 / -는 것" },
-      { ko: "음악을 들어요.", grammar: "Bất quy tắc ㄷ" },
-      // Bài 15
-      { ko: "집에서 학교까지 가요.", grammar: "에서 ~ 까지 (vị trí)" },
-      { ko: "버스로 가요.", grammar: "(으)로 (phương tiện)" },
-      { ko: "공부하러 도서관에 가요.", grammar: "-(으)러 가다" }
-    ];
-
-    const allGrammarList = [
-      "입니다", "입니까?", "은 / 는", "여기 · 거기 · 저기", "이것 · 그것 · 저것",
-      "이/가 있습니다/없습니다", "이/가 아닙니다", "-ㅂ/습니다", "-ㅂ/습니까?", 
-      "을 / 를", "에서 (địa điểm)", "Số từ Hán Hàn", "와 / 과", "에 (thời gian)", 
-      "Số từ thuần Hàn", "-아/어요", "안 (phủ định)", "에 가다", "-았/었- (quá khứ)", 
-      "하고", "-(으)ㅂ시다", "-고 싶다", "Giản lược ㅡ", "은 / 는 (đối chiếu)", 
-      "-겠-", "-지 않다", "-(으)세요", "(으)로 (phương hướng)", "-(으)ㄹ래요", 
-      "도 (cũng)", "께서 (kính ngữ)", "-(으)시-", "Giản lược ㄹ", "-고 (liên từ)", 
-      "부터 ~ 까지", "-(으)ㄹ 거예요", "Bất quy tắc ㅂ", "에게 / 한테 / 께", 
-      "-지만", "-(으)려고 하다", "-아/어서 (nguyên nhân)", "-(으)ㄹ까요?", 
-      "못 (không thể)", "-(으)ㄹ 수 있다/없다", "-기 / -는 것", "Bất quy tắc ㄷ", 
-      "에서 ~ 까지 (vị trí)", "(으)로 (phương tiện)", "-(으)러 가다"
-    ];
-
-    /* HÀM TẠO 100% CÂU HỎI NGỮ PHÁP (KHÔNG DỊCH NGHĨA) */
-    function generateOnlyGrammarQuestions(lesson, totalCount) {
-      // Lọc câu từ bài 1 đến bài hiện tại (ôn tập lũy tiến)
-      const currentGrammarNames = lesson.grammar.map(g => g.title.replace(/^\d+\.\s*/, '').split('(')[0].trim());
-      const availableSentences = grammarSentencesDB.filter(s => {
-        return allGrammarList.indexOf(s.grammar) <= allGrammarList.indexOf(currentGrammarNames[currentGrammarNames.length - 1] || "입니다");
-      });
-
-      const pool = availableSentences.length > 0 ? availableSentences : grammarSentencesDB;
-      let questions = [];
-
-      for (let i = 0; i < totalCount; i++) {
-        const item = pool[i % pool.length];
-        const correctGrammar = item.grammar;
-        
-        // 3 Đáp án sai
-        const distractors = allGrammarList.filter(g => g !== correctGrammar).sort(() => 0.5 - Math.random()).slice(0, 3);
-        const options = [correctGrammar, distractors[0], distractors[1], distractors[2]].sort(() => 0.5 - Math.random());
-
-        questions.push({
-          ko: item.ko,
-          display: `<h3 class="text-2xl sm:text-3xl my-3 text-slate-900 kr-text tracking-tight">${item.ko}</h3>`,
-          vietnamese: "", // Không hiển thị dịch nghĩa tiếng Việt theo yêu cầu
-          options: options,
-          correct: options.indexOf(correctGrammar),
-          explanation: `Câu "${item.ko}" đang áp dụng mẫu ngữ pháp "${correctGrammar}".`
-        });
-      }
-
-      return questions.sort(() => 0.5 - Math.random());
+    /* MOBILE MENU TOGGLE */
+    function toggleMobileMenu() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('mobile-overlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
     }
 
-    /* Hiển thị lộ trình */
+    /* TẠO CÂU HỎI ĐA DẠNG CHO LUYỆN TẬP & KIỂM TRA */
+    function generateDiverseQuestions(lesson, count) {
+      const allVocab = getAllVocabulary();
+      const pool = lesson.vocab;
+      const questions = [];
+
+      for (let i = 0; i < count; i++) {
+        const target = pool[i % pool.length];
+        const qType = i % 3;
+
+        const distractors = allVocab
+          .filter(v => v.ko !== target.ko)
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3);
+
+        if (qType === 0) {
+          const opts = [target.vi, ...distractors.map(d => d.vi)].sort(() => Math.random() - 0.5);
+          questions.push({
+            type: 0,
+            badge: "Nghĩa từ vựng",
+            prompt: "CHỌN NGHĨA TIẾNG VIỆT ĐÚNG",
+            display: `<h3 class="text-4xl sm:text-5xl font-black kr-text text-slate-900">${target.ko}</h3><p class="text-xs text-blue-500 font-bold mt-1">${target.romaja}</p>`,
+            vietnamese: `Loại từ: ${target.type}`,
+            options: opts,
+            correct: opts.indexOf(target.vi),
+            isOptionKorean: false,
+            targetKo: target.ko,
+            explanation: `"${target.ko}" (${target.romaja}) có nghĩa là "${target.vi}". Ví dụ: ${target.exKo}`
+          });
+        } else if (qType === 1) {
+          const opts = [target.ko, ...distractors.map(d => d.ko)].sort(() => Math.random() - 0.5);
+          questions.push({
+            type: 1,
+            badge: "Chọn từ tiếng Hàn",
+            prompt: "TỪ NÀO SAU ĐÂY CÓ NGHĨA LÀ:",
+            display: `<h3 class="text-2xl sm:text-3xl font-black vi-text text-blue-700">${target.vi}</h3>`,
+            vietnamese: `Gợi ý: ${target.exVi}`,
+            options: opts,
+            correct: opts.indexOf(target.ko),
+            isOptionKorean: true,
+            targetKo: target.ko,
+            explanation: `"${target.vi}" trong tiếng Hàn là "${target.ko}" (${target.romaja}).`
+          });
+        } else {
+          const opts = [target.vi, ...distractors.map(d => d.vi)].sort(() => Math.random() - 0.5);
+          questions.push({
+            type: 2,
+            badge: "Luyện nghe",
+            prompt: "NGHE VÀ CHỌN NGHĨA ĐÚNG",
+            display: `<button onclick="speakKorean('${target.ko}')" class="mx-auto min-h-[56px] px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold text-base shadow-md transition flex items-center gap-2">🔊 Bấm để nghe lại</button>`,
+            vietnamese: "Hãy lắng nghe phát âm chuẩn Seoul và chọn đáp án.",
+            options: opts,
+            correct: opts.indexOf(target.vi),
+            isOptionKorean: false,
+            targetKo: target.ko,
+            explanation: `Từ bạn vừa nghe là "${target.ko}" (${target.romaja}) - nghĩa là "${target.vi}".`
+          });
+        }
+      }
+      return questions.sort(() => Math.random() - 0.5);
+    }
+
+    /* Cài đặt Voice Seoul */
+    let seoulVoice = null;
+    function loadSeoulVoice() {
+      if ('speechSynthesis' in window) {
+        const voices = window.speechSynthesis.getVoices();
+        seoulVoice = voices.find(v => v.lang === 'ko-KR' && (v.name.includes('Seoul') || v.name.includes('Google') || v.name.includes('Yuna') || v.name.includes('Heami') || v.name.includes('Seoyeon') || v.name.includes('SunHi')))
+                     || voices.find(v => v.lang === 'ko-KR' || v.lang.startsWith('ko'));
+      }
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = loadSeoulVoice;
+      loadSeoulVoice();
+    }
+
+    function speakKorean(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ko-KR';
+        if (seoulVoice) utterance.voice = seoulVoice;
+        utterance.rate = 0.85;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    /* ĐIỀU HƯỚNG THANH MENU BÊN TRÁI */
+    function navigateSidebar(viewName) {
+      const navMap = {
+        'home': 'side-home',
+        'roadmap': 'side-roadmap',
+        'dictionary': 'side-dictionary',
+        'vocab-bank': 'side-vocab',
+        'grammar-bank': 'side-grammar',
+        'review': 'side-review',
+        'mock-test': 'side-mock'
+      };
+
+      const hasBadge = ['side-vocab', 'side-grammar', 'side-review'];
+
+      Object.values(navMap).forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          const layout = hasBadge.includes(id) ? 'justify-between' : 'gap-3';
+          btn.className = `w-full min-h-[44px] flex items-center ${layout} px-3.5 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition`;
+        }
+      });
+
+      const activeId = navMap[viewName];
+      const activeBtn = document.getElementById(activeId);
+      if (activeBtn) {
+        const layout = hasBadge.includes(activeId) ? 'justify-between' : 'gap-3';
+        activeBtn.className = `w-full min-h-[44px] flex items-center ${layout} px-3.5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white ocean-btn`;
+      }
+
+      document.getElementById('view-roadmap').classList.add('hidden');
+      document.getElementById('view-lesson').classList.add('hidden');
+      document.getElementById('view-dictionary').classList.add('hidden');
+
+      if (viewName === 'roadmap' || viewName === 'home') {
+        document.getElementById('view-roadmap').classList.remove('hidden');
+        renderRoadmap();
+      } else if (viewName === 'dictionary') {
+        document.getElementById('view-dictionary').classList.remove('hidden');
+        handleDictionarySearch();
+      } else if (viewName === 'vocab-bank') {
+        openLesson(currentLesson.id, 'vocab');
+      } else if (viewName === 'grammar-bank') {
+        openLesson(currentLesson.id, 'grammar');
+      } else if (viewName === 'review') {
+        openLesson(currentLesson.id, 'flashcard');
+      } else if (viewName === 'mock-test') {
+        openLesson(currentLesson.id, 'quiz');
+      }
+
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar && !sidebar.classList.contains('-translate-x-full') && window.innerWidth < 1024) {
+        toggleMobileMenu();
+      }
+
+      saveProgress();
+    }
+
+    /* LƯU TIẾN ĐỘ VÀO LOCALSTORAGE */
+    function saveProgress() {
+      const state = {
+        lastLessonId: currentLesson.id,
+        currentView: document.getElementById('view-lesson').classList.contains('hidden') ? 'roadmap' : 'lesson',
+        activeTab: currentTab,
+        lessons: allChaptersData.map(l => ({
+          id: l.id,
+          unlocked: l.unlocked,
+          completed: l.completed,
+          tabsCompleted: l.tabsCompleted
+        }))
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loadProgress() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return false;
+      try {
+        const state = JSON.parse(saved);
+        if (state.lessons) {
+          state.lessons.forEach(sLes => {
+            const l = allChaptersData.find(x => x.id === sLes.id);
+            if (l) {
+              l.unlocked = sLes.unlocked;
+              l.completed = sLes.completed;
+              l.tabsCompleted = sLes.tabsCompleted || { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false };
+            }
+          });
+        }
+        if (state.lastLessonId) {
+          const l = allChaptersData.find(x => x.id === state.lastLessonId);
+          if (l && l.unlocked) {
+            currentLesson = l;
+            if (state.currentView === 'lesson') {
+              openLesson(l.id, state.activeTab || 'vocab');
+              return true;
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Lỗi đọc tiến độ", e);
+      }
+      return false;
+    }
+
+    function resetAllProgress() {
+      if (confirm("Bạn có chắc chắn muốn đặt lại toàn bộ tiến độ học tập?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    function markSectionComplete(sectionKey) {
+      if (!currentLesson.tabsCompleted) {
+        currentLesson.tabsCompleted = { vocab: false, flashcard: false, grammar: false, practice: false, quiz: false };
+      }
+      currentLesson.tabsCompleted[sectionKey] = true;
+      updateTabBadges();
+      saveProgress();
+      renderRoadmap();
+    }
+
+    function updateTabBadges() {
+      const tc = currentLesson.tabsCompleted || {};
+      ['vocab', 'flashcard', 'grammar', 'practice', 'quiz'].forEach(tab => {
+        const badge = document.getElementById(`badge-tab-${tab}`);
+        if (badge) {
+          if (tc[tab]) badge.classList.remove('hidden');
+          else badge.classList.add('hidden');
+        }
+      });
+    }
+
+    /* TRA TỪ ĐIỂN */
+    function getAllVocabulary() {
+      let all = [];
+      allChaptersData.forEach(ch => {
+        ch.vocab.forEach(v => {
+          all.push({ ...v, chapterTitle: ch.title });
+        });
+      });
+      return all;
+    }
+
+    function handleDictionarySearch() {
+      const query = document.getElementById('dict-search-input').value.trim().toLowerCase();
+      const container = document.getElementById('dict-results-container');
+      const allVocab = getAllVocabulary();
+
+      let filtered = allVocab;
+      if (query !== '') {
+        filtered = allVocab.filter(v =>
+          v.ko.toLowerCase().includes(query) ||
+          v.vi.toLowerCase().includes(query) ||
+          v.romaja.toLowerCase().includes(query)
+        );
+      }
+
+      container.innerHTML = '';
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
+            <span class="text-3xl">🔍</span>
+            <p class="text-sm font-bold text-slate-600 mt-2">Không tìm thấy từ vựng nào khớp với "${query}"</p>
+            <p class="text-xs text-slate-400 mt-1">Hãy thử tìm từ khác hoặc kiểm tra lại chính tả nhé.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach((item) => {
+        const card = document.createElement('div');
+        card.className = "p-4 bg-white border border-slate-200 rounded-2xl hover:border-blue-300 hover:shadow-sm transition flex items-center justify-between gap-3";
+        card.innerHTML = `
+          <div class="space-y-1 min-w-0">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xl font-bold kr-text text-slate-900">${item.ko}</span>
+              <span class="text-xs italic text-blue-600 vi-text">${item.romaja}</span>
+              <span class="text-[11px] px-2 py-0.5 rounded-full border border-blue-200 bg-blue-50 text-blue-700 font-bold vi-text">${item.type}</span>
+              <span class="text-[11px] text-slate-400 vi-text truncate">(${item.chapterTitle})</span>
+            </div>
+            <p class="text-sm font-bold text-slate-800 vi-text">${item.vi}</p>
+            <p class="text-xs text-slate-500 kr-text">${item.exKo} — <span class="vi-text">${item.exVi}</span></p>
+          </div>
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            <button onclick="speakKorean('${item.ko}')" class="min-w-[40px] min-h-[40px] rounded-xl border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 text-sm flex items-center justify-center" title="Phát âm từ">🔊</button>
+            <button onclick="copyToClipboard('${item.ko}')" class="min-w-[40px] min-h-[40px] rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 text-xs font-bold flex items-center justify-center" title="Sao chép từ">📋</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    async function pasteFromClipboard() {
+      try {
+        const text = await navigator.clipboard.readText();
+        document.getElementById('dict-search-input').value = text;
+        handleDictionarySearch();
+      } catch (err) {
+        alert("Vui lòng cấp quyền dán từ clipboard hoặc nhập tay vào ô tìm kiếm.");
+      }
+    }
+
+    function clearDictSearch() {
+      document.getElementById('dict-search-input').value = '';
+      handleDictionarySearch();
+    }
+
+    function setDictSearch(word) {
+      document.getElementById('dict-search-input').value = word;
+      handleDictionarySearch();
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      alert(`Đã sao chép "${text}" vào bộ nhớ tạm!`);
+    }
+
+    /* RENDER ROADMAP */
     function renderRoadmap() {
       const list = document.getElementById('roadmap-list');
       list.innerHTML = '';
-      
+
       let completedCount = allChaptersData.filter(c => c.completed).length;
       let percent = Math.round((completedCount / allChaptersData.length) * 100);
       document.getElementById('progress-bar').style.width = `${Math.max(percent, 6.6)}%`;
@@ -972,22 +1335,22 @@
         const node = document.createElement('div');
         node.className = "flex items-start gap-4 relative z-10";
         node.innerHTML = `
-          <div class="w-10 h-10 rounded-xl ${isDone ? 'bg-emerald-500 text-white border-2 border-emerald-600' : (isLock ? 'bg-slate-200 text-slate-400 border-2 border-slate-300' : 'bg-blue-600 text-white border-2 border-blue-700')} flex items-center justify-center font-black text-sm ocean-shadow-sm flex-shrink-0 vi-text">
+          <div class="w-10 h-10 rounded-xl ${isDone ? 'bg-emerald-500 text-white shadow-sm' : (isLock ? 'bg-slate-200 text-slate-400' : 'bg-blue-600 text-white shadow-md')} flex items-center justify-center font-black text-sm flex-shrink-0 vi-text">
             ${isDone ? '✓' : (isLock ? '🔒' : les.id)}
           </div>
-          <div onclick="${!isLock ? `openLesson(${les.id})` : ''}" class="flex-1 bg-white ocean-border-light ocean-shadow rounded-2xl p-5 ${!isLock ? 'cursor-pointer hover:border-blue-400' : 'opacity-65 cursor-not-allowed'} transition">
-            <div class="flex justify-between items-start mb-1">
+          <div onclick="${!isLock ? `openLesson(${les.id})` : ''}" class="flex-1 ocean-card ${!isLock ? 'ocean-card-interactive cursor-pointer' : 'opacity-65 cursor-not-allowed bg-slate-50'} rounded-2xl p-5">
+            <div class="flex justify-between items-center mb-1.5">
               <span class="text-xs font-bold px-2.5 py-0.5 rounded-full border border-blue-200 bg-blue-50 text-blue-700 vi-text">Bài ${les.id}</span>
               <span class="text-xs text-slate-400 font-bold vi-text">⏱️ ${les.time}</span>
             </div>
-            <h4 class="font-bold text-base text-slate-900 vi-text">${les.title}</h4>
-            <p class="text-xs text-slate-500 mt-1 vi-text">${les.desc}</p>
-            <div class="flex flex-wrap gap-1.5 mt-3">
-              <span class="text-[11px] bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-md font-semibold border border-blue-200 vi-text">Từ vựng</span>
-              <span class="text-[11px] bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-md font-semibold border border-blue-200 vi-text">Flashcard</span>
-              <span class="text-[11px] bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-md font-semibold border border-blue-200 vi-text">Ngữ pháp</span>
-              <span class="text-[11px] bg-sky-100 text-sky-800 px-2.5 py-0.5 rounded-md font-semibold border border-sky-300 vi-text">Luyện tập</span>
-              <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-md font-semibold border border-emerald-300 vi-text">Kiểm tra</span>
+            <h4 class="font-extrabold text-base sm:text-lg text-slate-900 vi-text">${les.title}</h4>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1 vi-text">${les.desc}</p>
+            <div class="flex flex-wrap gap-1.5 mt-3.5">
+              <span class="text-[11px] bg-blue-50 text-blue-700 px-2.5 py-1 rounded-lg font-semibold border border-blue-100 vi-text">Từ vựng ${les.tabsCompleted?.vocab ? '✓' : ''}</span>
+              <span class="text-[11px] bg-blue-50 text-blue-700 px-2.5 py-1 rounded-lg font-semibold border border-blue-100 vi-text">Flashcard ${les.tabsCompleted?.flashcard ? '✓' : ''}</span>
+              <span class="text-[11px] bg-blue-50 text-blue-700 px-2.5 py-1 rounded-lg font-semibold border border-blue-100 vi-text">Ngữ pháp ${les.tabsCompleted?.grammar ? '✓' : ''}</span>
+              <span class="text-[11px] bg-sky-50 text-sky-800 px-2.5 py-1 rounded-lg font-semibold border border-sky-200 vi-text">Luyện tập ${les.tabsCompleted?.practice ? '✓' : ''}</span>
+              <span class="text-[11px] bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg font-semibold border border-emerald-200 vi-text">Kiểm tra ${les.tabsCompleted?.quiz ? '✓' : ''}</span>
             </div>
           </div>
         `;
@@ -995,14 +1358,14 @@
       });
     }
 
-    /* Mở bài học */
-    function openLesson(lessonId) {
+    /* MỞ BÀI HỌC */
+    function openLesson(lessonId, startTab = 'vocab') {
       currentLesson = allChaptersData.find(l => l.id === lessonId);
       if (!currentLesson) return;
 
       document.getElementById('view-roadmap').classList.add('hidden');
+      document.getElementById('view-dictionary').classList.add('hidden');
       document.getElementById('view-lesson').classList.remove('hidden');
-      document.getElementById('nav-actions').classList.remove('hidden');
 
       document.getElementById('lesson-title').innerText = currentLesson.title;
       document.getElementById('lesson-desc').innerText = currentLesson.desc;
@@ -1010,53 +1373,52 @@
       
       const statusBadge = document.getElementById('lesson-status-badge');
       if (currentLesson.completed) {
-        statusBadge.className = "bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-md border border-emerald-300 text-xs vi-text";
+        statusBadge.className = "bg-emerald-50 text-emerald-800 font-bold px-2.5 py-1 rounded-lg border border-emerald-200 text-xs vi-text";
         statusBadge.innerText = "✓ Đã hoàn thành";
       } else {
-        statusBadge.className = "bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-md border border-amber-300 text-xs vi-text";
+        statusBadge.className = "bg-amber-50 text-amber-800 font-bold px-2.5 py-1 rounded-lg border border-amber-200 text-xs vi-text";
         statusBadge.innerText = "⏳ Đang học";
       }
 
+      updateTabBadges();
       renderVocab();
       renderGrammar();
       currentFCIndex = 0;
       renderFlashcard();
       
-      // Tạo 20 câu Luyện tập chỉ dạng ngữ pháp
-      practiceList = generateOnlyGrammarQuestions(currentLesson, 20);
+      practiceList = generateDiverseQuestions(currentLesson, 20);
       practiceIndex = 0;
       renderPractice();
 
-      switchTab('vocab');
+      switchTab(startTab);
+      saveProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function showRoadmap() {
-      document.getElementById('view-roadmap').classList.remove('hidden');
-      document.getElementById('view-lesson').classList.add('hidden');
-      document.getElementById('nav-actions').classList.add('hidden');
-      renderRoadmap();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      navigateSidebar('roadmap');
     }
 
     function switchTab(tabName) {
+      currentTab = tabName;
       ['vocab', 'flashcard', 'grammar', 'practice', 'quiz'].forEach(t => {
         document.getElementById(`content-${t}`).classList.add('hidden');
         const btn = document.getElementById(`tab-${t}`);
-        btn.classList.remove('bg-blue-600', 'text-white');
-        btn.classList.add('bg-white', 'text-slate-700');
+        btn.classList.remove('bg-blue-600', 'text-white', 'ocean-btn');
+        btn.classList.add('bg-white', 'text-slate-700', 'ocean-btn-white');
       });
 
       document.getElementById(`content-${tabName}`).classList.remove('hidden');
       const activeBtn = document.getElementById(`tab-${tabName}`);
-      activeBtn.classList.remove('bg-white', 'text-slate-700');
-      activeBtn.classList.add('bg-blue-600', 'text-white');
+      activeBtn.classList.remove('bg-white', 'text-slate-700', 'ocean-btn-white');
+      activeBtn.classList.add('bg-blue-600', 'text-white', 'ocean-btn');
 
       if (tabName === 'quiz') {
         document.getElementById('test-intro').classList.remove('hidden');
         document.getElementById('test-running').classList.add('hidden');
         document.getElementById('test-result').classList.add('hidden');
       }
+      saveProgress();
     }
 
     /* 1. TỪ VỰNG */
@@ -1065,40 +1427,30 @@
       container.innerHTML = '';
       currentLesson.vocab.forEach((v, idx) => {
         const card = document.createElement('div');
-        card.className = "bg-white ocean-border-light ocean-shadow rounded-xl p-5 flex flex-col justify-between";
+        card.className = "ocean-card ocean-card-interactive rounded-2xl p-5 flex flex-col justify-between";
         card.innerHTML = `
           <div>
-            <div class="flex justify-between items-start mb-2">
-              <span class="text-xs font-black text-blue-400 vi-text">#${idx + 1}</span>
-              <button onclick="speakKorean('${v.ko}')" class="p-1.5 rounded-lg border border-blue-300 text-blue-600 hover:bg-blue-50 text-sm" title="Phát âm từ">🔊</button>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-xs font-black text-blue-500 vi-text">#${idx + 1}</span>
+              <button onclick="speakKorean('${v.ko}')" class="min-w-[40px] min-h-[40px] rounded-xl border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 text-sm flex items-center justify-center transition" title="Phát âm từ">🔊</button>
             </div>
-            <div class="flex items-baseline gap-2">
-              <h4 class="text-2xl font-black text-slate-900 kr-text">${v.ko}</h4>
+            <div class="flex flex-wrap items-baseline gap-2">
+              <h4 class="text-2xl font-bold text-slate-900 kr-text">${v.ko}</h4>
               <span class="text-xs font-medium text-slate-400 italic vi-text">${v.romaja}</span>
-              <span class="ml-auto text-[11px] font-bold px-2 py-0.5 rounded border border-blue-200 bg-blue-50 text-blue-700 vi-text">${v.type}</span>
+              <span class="ml-auto text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-blue-200 bg-blue-50 text-blue-700 vi-text">${v.type}</span>
             </div>
             <p class="font-extrabold text-base text-slate-800 mt-2 vi-text">${v.vi}</p>
           </div>
-          <div class="mt-4 pt-3 border-t border-dashed border-blue-100 flex justify-between items-center bg-blue-50/40 -mx-5 -mb-5 p-4 rounded-b-xl">
-            <div>
-              <p class="text-xs font-bold text-slate-800 kr-text">${v.exKo}</p>
-              <p class="text-[11px] text-slate-500 vi-text">${v.exVi}</p>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center gap-2 bg-slate-50/80 -mx-5 -mb-5 p-4 rounded-b-2xl">
+            <div class="min-w-0">
+              <p class="text-xs sm:text-sm font-bold text-slate-800 kr-text">${v.exKo}</p>
+              <p class="text-xs text-slate-500 mt-0.5 vi-text">${v.exVi}</p>
             </div>
-            <button onclick="speakKorean('${v.exKo}')" class="p-1 rounded border border-blue-300 bg-white hover:bg-blue-50 text-blue-600 text-xs">🔊</button>
+            <button onclick="speakKorean('${v.exKo}')" class="min-w-[36px] min-h-[36px] rounded-lg border border-slate-200 bg-white hover:bg-blue-50 text-blue-600 text-xs flex items-center justify-center flex-shrink-0">🔊</button>
           </div>
         `;
         container.appendChild(card);
       });
-    }
-
-    function speakKorean(text) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ko-KR';
-        utterance.rate = 0.85;
-        window.speechSynthesis.speak(utterance);
-      }
     }
 
     /* 2. FLASHCARD */
@@ -1128,8 +1480,12 @@
       if (currentFCIndex < currentLesson.vocab.length - 1) {
         currentFCIndex++;
         renderFlashcard();
+      } else {
+        markSectionComplete('flashcard');
       }
     }
+
+    function markCardKnown() { nextCard(); }
 
     function prevCard() {
       if (currentFCIndex > 0) {
@@ -1154,22 +1510,22 @@
       list.innerHTML = '';
       currentLesson.grammar.forEach(g => {
         const item = document.createElement('div');
-        item.className = "bg-white ocean-border-light ocean-shadow rounded-2xl p-6";
+        item.className = "ocean-card rounded-2xl p-6";
         item.innerHTML = `
           <h4 class="text-xl font-black text-blue-900 mb-2 vi-text">${g.title}</h4>
           <p class="text-sm text-slate-700 leading-relaxed mb-4 vi-text">${g.desc}</p>
-          <div class="bg-blue-50/80 p-4 rounded-xl border border-blue-200 mb-4 text-xs font-semibold text-blue-900 vi-text">
+          <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 mb-4 text-sm font-semibold text-blue-900 vi-text">
             ${g.rule}
           </div>
           <h5 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 vi-text">Ví dụ câu mẫu</h5>
           <div class="space-y-2">
             ${g.examples.map(ex => `
-              <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-blue-100">
+              <div class="flex justify-between items-center p-3.5 bg-slate-50 rounded-xl border border-slate-200">
                 <div>
                   <p class="font-extrabold text-sm text-slate-900 kr-text">${ex.ko}</p>
-                  <p class="text-xs text-slate-500 vi-text">${ex.vi}</p>
+                  <p class="text-xs text-slate-500 mt-0.5 vi-text">${ex.vi}</p>
                 </div>
-                <button onclick="speakKorean('${ex.ko}')" class="p-1 rounded border border-blue-300 bg-white hover:bg-blue-50 text-blue-600 text-xs">🔊</button>
+                <button onclick="speakKorean('${ex.ko}')" class="min-w-[36px] min-h-[36px] rounded-lg border border-slate-200 bg-white hover:bg-blue-50 text-blue-600 text-xs flex items-center justify-center">🔊</button>
               </div>
             `).join('')}
           </div>
@@ -1178,28 +1534,33 @@
       });
     }
 
-    /* 4. LUYỆN TẬP 20 CÂU (CHỈ DẠNG NGỮ PHÁP) */
+    /* 4. LUYỆN TẬP */
     function renderPractice() {
       const q = practiceList[practiceIndex];
       practiceAnswered = false;
       document.getElementById('practice-counter').innerText = `Câu ${practiceIndex + 1}/20`;
+      document.getElementById('practice-type-tag').innerText = q.badge;
+      document.getElementById('practice-prompt').innerText = q.prompt;
       document.getElementById('practice-display-area').innerHTML = q.display;
+      document.getElementById('practice-vietnamese').innerText = q.vietnamese;
       
-      const expBox = document.getElementById('practice-explanation-box');
-      expBox.classList.add('hidden');
+      document.getElementById('practice-explanation-box').classList.add('hidden');
+
+      if (q.type === 2) {
+        setTimeout(() => speakKorean(q.targetKo), 250);
+      }
 
       const grid = document.getElementById('practice-options-grid');
       grid.innerHTML = '';
-      practiceSelected = null;
 
       q.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.id = `practice-opt-${idx}`;
         btn.onclick = () => selectPracticeOption(idx);
-        btn.className = "p-4 text-left bg-white ocean-btn rounded-xl font-bold text-sm sm:text-base flex items-center transition-colors";
+        btn.className = "min-h-[56px] p-4 text-left bg-white ocean-btn-white rounded-xl font-bold text-sm sm:text-base flex items-center transition-colors";
         btn.innerHTML = `
-          <span class="w-6 h-6 rounded border border-blue-300 flex items-center justify-center text-xs font-mono bg-blue-50 mr-3 text-blue-700 flex-shrink-0 vi-text">${idx + 1}</span>
-          <span class="kr-text">${opt}</span>
+          <span class="w-7 h-7 rounded-lg border border-blue-200 flex items-center justify-center text-xs font-mono bg-blue-50 mr-3 text-blue-700 flex-shrink-0 vi-text">${idx + 1}</span>
+          <span class="${q.isOptionKorean ? 'kr-text' : 'vi-text'}">${opt}</span>
         `;
         grid.appendChild(btn);
       });
@@ -1208,27 +1569,23 @@
     function selectPracticeOption(idx) {
       if (practiceAnswered) return;
       practiceAnswered = true;
-      practiceSelected = idx;
       const q = practiceList[practiceIndex];
 
       const chosenBtn = document.getElementById(`practice-opt-${idx}`);
       const correctBtn = document.getElementById(`practice-opt-${q.correct}`);
 
       if (idx === q.correct) {
-        // Đúng -> Tô xanh
-        chosenBtn.classList.remove('bg-white');
-        chosenBtn.classList.add('bg-emerald-500', 'text-white', '!border-emerald-600');
+        chosenBtn.classList.remove('bg-white', 'ocean-btn-white');
+        chosenBtn.classList.add('bg-emerald-500', 'text-white', 'border-2', 'border-emerald-600');
       } else {
-        // Sai -> Tô đỏ và tô xanh đáp án đúng
-        chosenBtn.classList.remove('bg-white');
-        chosenBtn.classList.add('bg-rose-500', 'text-white', '!border-rose-600');
+        chosenBtn.classList.remove('bg-white', 'ocean-btn-white');
+        chosenBtn.classList.add('bg-rose-500', 'text-white', 'border-2', 'border-rose-600');
         if (correctBtn) {
-          correctBtn.classList.remove('bg-white');
-          correctBtn.classList.add('bg-emerald-500', 'text-white', '!border-emerald-600');
+          correctBtn.classList.remove('bg-white', 'ocean-btn-white');
+          correctBtn.classList.add('bg-emerald-500', 'text-white', 'border-2', 'border-emerald-600');
         }
       }
 
-      // Hiện giải thích thu nhỏ
       const expBox = document.getElementById('practice-explanation-box');
       const badge = document.getElementById('practice-result-badge');
       const text = document.getElementById('practice-explanation-text');
@@ -1236,10 +1593,10 @@
       expBox.classList.remove('hidden');
       if (idx === q.correct) {
         badge.innerText = "✓ Chính xác!";
-        badge.className = "font-bold text-emerald-600 mr-1";
+        badge.className = "font-bold text-emerald-700 mr-1";
       } else {
         badge.innerText = "✕ Chưa chính xác.";
-        badge.className = "font-bold text-rose-600 mr-1";
+        badge.className = "font-bold text-rose-700 mr-1";
       }
       text.innerText = q.explanation;
     }
@@ -1253,12 +1610,12 @@
         practiceIndex++;
         renderPractice();
       } else {
-        alert("🎉 Chúc mừng bạn đã hoàn thành 20 câu luyện tập ngữ pháp! Giờ hãy chuyển sang Bài kiểm tra (10 câu) để qua vòng nhé.");
+        markSectionComplete('practice');
+        alert("🎉 Chúc mừng bạn đã hoàn thành 20 câu luyện tập! Giờ hãy chuyển sang Bài kiểm tra (10 câu) để qua vòng nhé.");
         switchTab('quiz');
       }
     }
 
-    /* Phím tắt 1-4 & Enter */
     window.addEventListener('keydown', (e) => {
       const practiceView = document.getElementById('content-practice');
       if (!practiceView.classList.contains('hidden')) {
@@ -1271,9 +1628,9 @@
       }
     });
 
-    /* 5. BÀI KIỂM TRA (CHỈ DẠNG NGỮ PHÁP - 10 CÂU - PASS >= 70%) */
+    /* 5. BÀI KIỂM TRA (PASS >= 70%) */
     function startTest() {
-      testList = generateOnlyGrammarQuestions(currentLesson, 10);
+      testList = generateDiverseQuestions(currentLesson, 10);
       testIndex = 0;
       testScore = 0;
       document.getElementById('test-intro').classList.add('hidden');
@@ -1285,10 +1642,16 @@
       const q = testList[testIndex];
       testAnswered = false;
       document.getElementById('test-counter').innerText = `Câu ${testIndex + 1}/10`;
+      document.getElementById('test-type-tag').innerText = q.badge;
+      document.getElementById('test-badge').innerText = q.prompt;
       document.getElementById('test-display-area').innerHTML = q.display;
+      document.getElementById('test-vietnamese-text').innerText = q.vietnamese;
       
-      const expBox = document.getElementById('test-explanation-box');
-      expBox.classList.add('hidden');
+      document.getElementById('test-explanation-box').classList.add('hidden');
+
+      if (q.type === 2) {
+        setTimeout(() => speakKorean(q.targetKo), 250);
+      }
 
       const grid = document.getElementById('test-options-grid');
       grid.innerHTML = '';
@@ -1296,10 +1659,10 @@
         const btn = document.createElement('button');
         btn.id = `test-opt-${idx}`;
         btn.onclick = () => submitTestAnswer(idx);
-        btn.className = "p-4 text-left bg-white ocean-btn rounded-xl font-bold text-sm sm:text-base flex items-center transition-colors";
+        btn.className = "min-h-[56px] p-4 text-left bg-white ocean-btn-white rounded-xl font-bold text-sm sm:text-base flex items-center transition-colors";
         btn.innerHTML = `
-          <span class="w-6 h-6 rounded border border-blue-300 flex items-center justify-center text-xs font-mono bg-blue-50 mr-3 text-blue-700 flex-shrink-0 vi-text">${idx + 1}</span>
-          <span class="kr-text">${opt}</span>
+          <span class="w-7 h-7 rounded-lg border border-blue-200 flex items-center justify-center text-xs font-mono bg-blue-50 mr-3 text-blue-700 flex-shrink-0 vi-text">${idx + 1}</span>
+          <span class="${q.isOptionKorean ? 'kr-text' : 'vi-text'}">${opt}</span>
         `;
         grid.appendChild(btn);
       });
@@ -1315,14 +1678,14 @@
 
       if (selectedIdx === q.correct) {
         testScore++;
-        chosenBtn.classList.remove('bg-white');
-        chosenBtn.classList.add('bg-emerald-500', 'text-white', '!border-emerald-600');
+        chosenBtn.classList.remove('bg-white', 'ocean-btn-white');
+        chosenBtn.classList.add('bg-emerald-500', 'text-white', 'border-2', 'border-emerald-600');
       } else {
-        chosenBtn.classList.remove('bg-white');
-        chosenBtn.classList.add('bg-rose-500', 'text-white', '!border-rose-600');
+        chosenBtn.classList.remove('bg-white', 'ocean-btn-white');
+        chosenBtn.classList.add('bg-rose-500', 'text-white', 'border-2', 'border-rose-600');
         if (correctBtn) {
-          correctBtn.classList.remove('bg-white');
-          correctBtn.classList.add('bg-emerald-500', 'text-white', '!border-emerald-600');
+          correctBtn.classList.remove('bg-white', 'ocean-btn-white');
+          correctBtn.classList.add('bg-emerald-500', 'text-white', 'border-2', 'border-emerald-600');
         }
       }
 
@@ -1333,10 +1696,10 @@
 
       if (selectedIdx === q.correct) {
         badge.innerText = "✓ Đúng!";
-        badge.className = "font-bold text-emerald-600 mr-1";
+        badge.className = "font-bold text-emerald-700 mr-1";
       } else {
         badge.innerText = "✕ Sai!";
-        badge.className = "font-bold text-rose-600 mr-1";
+        badge.className = "font-bold text-rose-700 mr-1";
       }
       text.innerText = q.explanation;
     }
@@ -1358,7 +1721,7 @@
       document.getElementById('test-running').classList.add('hidden');
       document.getElementById('test-result').classList.remove('hidden');
 
-      const total = testList.length; // 10 câu
+      const total = testList.length;
       const percent = Math.round((testScore / total) * 100);
       document.getElementById('test-result-score').innerText = `Điểm số: ${testScore}/${total} (${percent}%)`;
 
@@ -1367,6 +1730,7 @@
         document.getElementById('test-result-title').innerText = 'Chúc mừng bạn đã ĐẠT qua vòng!';
         document.getElementById('test-result-desc').innerText = `Đạt ${percent}% (≥ 70%). Bạn đã hoàn thành xuất sắc Bài ${currentLesson.id} và mở khóa bài tiếp theo!`;
         currentLesson.completed = true;
+        markSectionComplete('quiz');
 
         const nextLes = allChaptersData.find(l => l.id === currentLesson.id + 1);
         if (nextLes) nextLes.unlocked = true;
@@ -1375,10 +1739,15 @@
         document.getElementById('test-result-title').innerText = 'Chưa đạt điều kiện qua vòng';
         document.getElementById('test-result-desc').innerText = `Bạn đạt ${percent}%, cần đúng tối thiểu 7/10 câu (≥ 70%). Hãy ôn tập lại và bấm làm lại bài kiểm tra nhé!`;
       }
+      saveProgress();
     }
 
+    /* KHỞI ĐỘNG HỆ THỐNG */
     window.onload = () => {
-      renderRoadmap();
+      const restored = loadProgress();
+      if (!restored) {
+        renderRoadmap();
+      }
     };
   </script>
 </body>
